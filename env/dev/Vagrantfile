@@ -1,8 +1,8 @@
 $script = <<SCRIPT
    sudo apt-get update
    sudo apt-get -y install openjdk-8-jdk
-   DEBIAN_FRONTEND=noninteractive apt install -y mysql-server
-   service mysqld start 
+   DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server
+   service mysql start 
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -18,3 +18,4 @@ Vagrant.configure("2") do |config|
     	v.name = "ubuntu-dev"
     end
 end
+
