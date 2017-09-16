@@ -7,7 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.machao.sp.ServiceWebApplication</config>
+		<config>java:com.machao.base.ServiceWebApplication</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
