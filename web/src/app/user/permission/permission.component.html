@@ -1,0 +1,38 @@
+<div class="component-container">
+  <div class="component-container-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="text-color-grey-150">权限列表</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9">
+          <span class="lead text-color-grey-200" >查看系统所有权限</span>
+        </div>
+        <div class="col-lg-3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container component-container-body">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>资源</th>
+        <th>权限</th>
+        <th>说明</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let permission of permissionList">
+        <td>{{permission.resource}}</td>
+        <td>{{permission.value}}</td>
+        <td>{{permission.description}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

@@ -1,0 +1,170 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ng2-toasty/style-bootstrap.css";
+@import "~ng2-toasty/style-default.css";
+@import "~ng2-toasty/style-material.css";
+@import "~ng2-toasty/style.css";
+
+a {
+  cursor: pointer;
+}
+
+.nav-menu-selector {
+  background-color: #00000000;
+}
+.nav-menu-selector:hover {
+  background-color: #0378AD;
+}
+
+.component-container {
+}
+.component-container-toolbar{
+  height: 40px;
+  background-color: #36ABE0;
+}
+.component-container-title {
+  height: 100px;
+  background-color: #68C0E8;
+}
+.component-container-body {
+  margin-top: 20px;
+}
+.component-container-toolbar-selector {
+  display: inline-block;
+  background-color: #00000000;
+  height:100%;
+  line-height: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #F1F1F1;
+}
+.component-container-toolbar-selector:hover {
+  background-color: #1DA1DC;
+  cursor: pointer;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.match-parent-height {
+  height:100%;
+}
+.match-parent-width {
+  width: 100%;
+}
+
+.color-yellow-50{background-color:#FFF0AE;}
+.color-yellow-100{background-color:#FFED9D;}
+.color-yellow-200{background-color:#FFEA8D;}
+.color-yellow-300{background-color:#FFE77D;}
+.color-yellow-400{background-color:#FFE46D;}
+.color-yellow-500{background-color:#FFE15D;}
+.color-yellow-600{background-color:#E5CA53;}
+.color-yellow-700{background-color:#CCB44A;}
+.color-yellow-800{background-color:#B29D41;}
+.color-yellow-900{background-color:#998737;}
+
+.color-green-50{background-color:#8CD9C9;}
+.color-green-100{background-color:#75D1BE;}
+.color-green-200{background-color:#5EC9B4;}
+.color-green-300{background-color:#47C2A9;}
+.color-green-400{background-color:#30BA9E;}
+.color-green-500{background-color:#1AB394;}
+.color-green-600{background-color:#17A185;}
+.color-green-700{background-color:#148F76;}
+.color-green-800{background-color:#127D67;}
+.color-green-900{background-color:#0F6B58;}
+
+.color-red-50{background-color:#F7BEC1;}
+.color-red-100{background-color:#F5AEB1;}
+.color-red-200{background-color:#F0ABAE;}
+.color-red-300{background-color:#ED9498;}
+.color-red-400{background-color:#ED797E;}
+.color-red-500{background-color:#EB5E64;}
+.color-red-600{background-color:#EB4A51;}
+.color-red-700{background-color:#DB3A41;}
+.color-red-800{background-color:#C3292F;}
+.color-red-900{background-color:#AA1D22;}
+
+.color-blue-50{background-color:#81CBEC;}
+.color-blue-100{background-color:#68C0E8;}
+.color-blue-200{background-color:#4FB6E4;}
+.color-blue-300{background-color:#36ABE0;}
+.color-blue-400{background-color:#1DA1DC;}
+.color-blue-500{background-color:#0497D9;}
+.color-blue-600{background-color:#0387C3;}
+.color-blue-700{background-color:#0378AD;}
+.color-blue-800{background-color:#026997;}
+.color-blue-900{background-color:#025A82;}
+
+.color-grey-0{background-color:#FFFFFF;}
+.color-grey-50{background-color:#FAFAFA;}
+.color-grey-100{background-color:#F5F5F5;}
+.color-grey-150{background-color:#F1F1F1;}
+.color-grey-200{background-color:#EEEEEE;}
+.color-grey-300{background-color:#E0E0E0;}
+.color-grey-400{background-color:#BDBDBD;}
+.color-grey-500{background-color:#9E9E9E;}
+.color-grey-600{background-color:#757575;}
+.color-grey-700{background-color:#616161;}
+.color-grey-800{background-color:#424242;}
+.color-grey-900{background-color:#212121;}
+.color-grey-1000{background-color:#000000;}
+
+.text-color-yellow-50{color:#FFF0AE;}
+.text-color-yellow-100{color:#FFED9D;}
+.text-color-yellow-200{color:#FFEA8D;}
+.text-color-yellow-300{color:#FFE77D;}
+.text-color-yellow-400{color:#FFE46D;}
+.text-color-yellow-500{color:#FFE15D;}
+.text-color-yellow-600{color:#E5CA53;}
+.text-color-yellow-700{color:#CCB44A;}
+.text-color-yellow-800{color:#B29D41;}
+.text-color-yellow-900{color:#998737;}
+
+.text-color-green-50{color:#8CD9C9;}
+.text-color-green-100{color:#75D1BE;}
+.text-color-green-200{color:#5EC9B4;}
+.text-color-green-300{color:#47C2A9;}
+.text-color-green-400{color:#30BA9E;}
+.text-color-green-500{color:#1AB394;}
+.text-color-green-600{color:#17A185;}
+.text-color-green-700{color:#148F76;}
+.text-color-green-800{color:#127D67;}
+.text-color-green-900{color:#0F6B58;}
+
+.text-color-red-50{color:#F7BEC1;}
+.text-color-red-100{color:#F5AEB1;}
+.text-color-red-200{color:#F0ABAE;}
+.text-color-red-300{color:#ED9498;}
+.text-color-red-400{color:#ED797E;}
+.text-color-red-500{color:#EB5E64;}
+.text-color-red-600{color:#EB4A51;}
+.text-color-red-700{color:#DB3A41;}
+.text-color-red-800{color:#C3292F;}
+.text-color-red-900{color:#AA1D22;}
+
+.text-color-blue-50{color:#81CBEC;}
+.text-color-blue-100{color:#68C0E8;}
+.text-color-blue-200{color:#4FB6E4;}
+.text-color-blue-300{color:#36ABE0;}
+.text-color-blue-400{color:#1DA1DC;}
+.text-color-blue-500{color:#0497D9;}
+.text-color-blue-600{color:#0387C3;}
+.text-color-blue-700{color:#0378AD;}
+.text-color-blue-800{color:#026997;}
+.text-color-blue-900{color:#025A82;}
+
+.text-color-grey-0{color:#FFFFFF;}
+.text-color-grey-50{color:#FAFAFA;}
+.text-color-grey-100{color:#F5F5F5;}
+.text-color-grey-150{color:#F1F1F1;}
+.text-color-grey-200{color:#EEEEEE;}
+.text-color-grey-300{color:#E0E0E0;}
+.text-color-grey-400{color:#BDBDBD;}
+.text-color-grey-500{color:#9E9E9E;}
+.text-color-grey-600{color:#757575;}
+.text-color-grey-700{color:#616161;}
+.text-color-grey-800{color:#424242;}
+.text-color-grey-900{color:#212121;}
+.text-color-grey-1000{color:#000000;}

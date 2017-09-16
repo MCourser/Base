@@ -1,0 +1,20 @@
+$script = <<SCRIPT
+   sudo apt-get update
+   sudo apt-get -y install openjdk-8-jdk
+   DEBIAN_FRONTEND=noninteractive apt install -y mysql-server
+   service mysqld start 
+SCRIPT
+
+Vagrant.configure("2") do |config|
+	config.vm.provision "shell", inline: $script
+
+  	config.vm.box = "ubuntu/trusty64"
+  	# config.ssh.username = "vagrant"
+  	# config.ssh.password = "123456"
+  	
+  	config.vm.network "forwarded_port", guest: 3306, host: 3306
+    
+    config.vm.provider "virtualbox" do |v|
+    	v.name = "ubuntu-dev"
+    end
+end

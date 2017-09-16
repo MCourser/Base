@@ -1,0 +1,46 @@
+<div>
+  <div class="component-container-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="text-color-grey-150">用户列表</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9">
+          <span class="lead text-color-grey-200" >查看系统所有用户</span>
+        </div>
+        <div class="col-lg-3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container component-container-body">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>用户名</th>
+        <th>角色</th>
+        <th class="text-right">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of userPage.content">
+        <td>{{user.name}}</td>
+        <td>
+          <span *ngFor="let role of user.roles" tooltip="{{role.description}}">
+            {{role.name}}
+          </span>
+        </td>
+        <td class="text-right">
+          <button class="btn btn-sm btn-success" routerLink="/home/user/{{user.id}}/update" routerLinkActive="active"><i class="icon-edit"></i> 更新</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(user.id)"><i class="icon-trash"></i> 删除</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+

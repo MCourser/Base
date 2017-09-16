@@ -1,0 +1,45 @@
+<div>
+  <div class="component-container-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="text-color-grey-150">{{isEditMode?'修改角色':'添加角色'}}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9">
+          <span class="lead text-color-grey-200" >{{isEditMode?'修改角色信息':'创建新角色类型'}}</span>
+        </div>
+        <div class="col-lg-3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container component-container-body">
+    <form name="roleForm">
+      <div class="form-group">
+        <label for="roleFormName">名称</label>
+        <input type="text" class="form-control" id="roleFormName" name="roleFormName" placeholder="请输入角色名称" [(ngModel)]="roleForm.name">
+      </div>
+      <div class="form-group">
+        <label for="roleFormDescription">说明</label>
+        <input type="text" class="form-control" id="roleFormDescription" name="roleFormDescription" placeholder="请输入角色说明" [(ngModel)]="roleForm.description">
+      </div>
+      <div class="form-group">
+        <label for="roleFormPermission">权限</label>
+        <div class="row" id="roleFormPermission">
+          <div class="col-lg-2" *ngFor="let permission of permissionList" tooltip="{{permission.description}}">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [checked]=permission.isSelected (change)="permission.isSelected = !permission.isSelected"> {{permission.value}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" (click)="submit()">提交</button>
+    </form>
+  </div>
+</div>
+
+

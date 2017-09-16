@@ -1,0 +1,23 @@
+server:
+  context-path: /api
+  port: 8080
+spring:
+  application:  
+    name: service-web
+  datasource:
+    url: jdbc:mysql://localhost:3306/sp
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    sql-script-encoding: utf-8
+#    schema: classpath:sql/schema.sql
+    data: classpath:sql/data.sql
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.cisco.dgc.ram: TRACE

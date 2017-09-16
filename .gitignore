@@ -1,0 +1,16 @@
+.metadata
+RemoteSystemsTempFiles
+.recommenders
+*.log
+env/dev/.vagrant
+
+server/.project
+server/target
+server/.settings
+
+server/service-web/.project
+server/service-web/target
+
+web/.idea
+web/e2e
+web/node_modules
