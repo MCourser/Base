@@ -45,16 +45,16 @@ npm start
 
 ### 界面
 
-![](.\images\login.jpg)
+![](./images/login.jpg)
 
 ![](.\images\home-permission.jpg)
 
-![](.\images\home-role-list.jpg)
+![](./images/home-role-list.jpg)
 
-![](.\images\home-role-update.jpg)
+![](./images/home-role-update.jpg)
 
-![](.\images\home-user-list.jpg)
+![](./images/home-user-list.jpg)
 
 ### Swagger Api
 
-![](.\images\swagger.jpg)
+![](./images/swagger.jpg)
