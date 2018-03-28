@@ -47,7 +47,7 @@ npm start
 
 ![](./images/login.jpg)
 
-![](.\images\home-permission.jpg)
+![](./images/home-permission.jpg)
 
 ![](./images/home-role-list.jpg)
 
