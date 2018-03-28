@@ -1,10 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {Permission, Role} from "../../../model/User";
-import {PermissionService} from "../../../service/permission.service";
-import {RoleService} from "../../../service/role.service";
-import {BaseCompoent, ToastType} from "../../../BaseCompoent";
+import {BaseCompoent} from "../../../BaseCompoent";
 import {ToastyService} from "ng2-toasty";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {UserService} from "../../../service/user.service";
 import {Page} from "../../../model/Page";
 

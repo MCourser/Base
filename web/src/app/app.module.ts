@@ -103,7 +103,7 @@ const routes: Routes = [
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     AlertModule.forRoot(),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [
     ComponentLoaderFactory,

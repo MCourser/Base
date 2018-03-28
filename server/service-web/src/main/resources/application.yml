@@ -5,7 +5,7 @@ spring:
   application:  
     name: service-web
   datasource:
-    url: jdbc:mysql://localhost:3306/sp
+    url: jdbc:mysql://localhost:3306/base
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -20,4 +20,3 @@ spring:
 logging:
   level:
     org.springframework.web: DEBUG
-    com.cisco.dgc.ram: TRACE

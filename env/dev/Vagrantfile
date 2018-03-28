@@ -1,21 +1,24 @@
-$script = <<SCRIPT
-   sudo apt-get update
-   sudo apt-get -y install openjdk-8-jdk
-   DEBIAN_FRONTEND=noninteractive apt install -y mariadb-server
-   service mysql start 
-SCRIPT
-
 Vagrant.configure("2") do |config|
-	config.vm.provision "shell", inline: $script
+  config.vm.box = "ubuntu/trusty64"
+  # config.ssh.username = "vagrant"
+  # config.ssh.password = "123456"
+  
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
+  
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "ubuntu-4-base"
 
-  	config.vm.box = "ubuntu/trusty64"
-  	# config.ssh.username = "vagrant"
-  	# config.ssh.password = "123456"
-  	
-  	config.vm.network "forwarded_port", guest: 3306, host: 3306
-    
-    config.vm.provider "virtualbox" do |v|
-    	v.name = "ubuntu-dev"
-    end
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+
+    vb.cpus = 2
+    vb.memory = 3072
+  end
+
+  config.vm.provision "docker",
+    images: ["mysql:latest"]
+
+  config.vm.provision "docker", run: "always" do |d|
+    d.run "mysql", image: "mysql:latest", args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=base"
+  end
 end
-

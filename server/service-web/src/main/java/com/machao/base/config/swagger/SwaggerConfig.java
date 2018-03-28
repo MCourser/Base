@@ -18,14 +18,14 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.machao.sp"))
+                .apis(RequestHandlerSelectors.basePackage("com.machao.base"))
                 .paths(PathSelectors.any())
                 .build();
 	}
 
 	private ApiInfo apiInfo() {
 		 return new ApiInfoBuilder()
-	                .title("Steam Pair APIs")
+	                .title("Base APIs")
 	                .description("provide restful api")
 //	                .termsOfServiceUrl("http://blog.didispace.com/")
 //	                .contact("程序猿DD")
