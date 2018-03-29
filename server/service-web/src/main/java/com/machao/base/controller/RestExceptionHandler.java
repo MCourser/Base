@@ -14,7 +14,7 @@ import com.machao.base.exception.RequestParamsErrorException;
 import com.machao.base.exception.ResourceNotFoundException;
 
 @ControllerAdvice
-public class ResetExceptionHandler {
+public class RestExceptionHandler {
 	
 	@ExceptionHandler({
 		DataIntegrityViolationException.class, 
