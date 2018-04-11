@@ -18,11 +18,9 @@ export class PermissionComponent implements OnInit {
   }
 
   public list() {
-    this.permissionService.list().map(resp=>resp.json() as Permission[]).subscribe(
-      permissions=> {
-        this.permissionList = permissions;
-      }
-    );
+    this.permissionService.list().toPromise().then(resp=>{
+      this.permissionList = resp.json();
+    });
   }
 
 }
