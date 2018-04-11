@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import {UserService} from "../service/user.service";
-import {User} from "../model/User";
 
 @Component({
   selector: 'app-login',
@@ -14,35 +13,26 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  private isLoginFail = false;
+  public isLoginFail = false;
 
   constructor(
     private router: Router,
     private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.me().subscribe(
-      resp => {
-        if(resp.status == 200) {
-          this.router.navigate(['/home']);
-        }
-      }
-    );
+    this.userService.me().toPromise().then(()=>{
+      this.router.navigate(['/home']);
+    });
   }
 
   public login() {
     this.userService.login(this.userLoginForm.username, this.userLoginForm.password).
-      subscribe(
-        resp=>{
-          if(resp.status == 200) {
-            this.isLoginFail = false;
-            this.router.navigate(['/home']);
-          }
-        },
-        error=>{
-          this.isLoginFail = true;
-        }
-      );
+    toPromise().then(()=>{
+      this.isLoginFail = false;
+      this.router.navigate(['/home']);
+    }).catch(error=>{
+      this.isLoginFail = true;
+    });
 }
 
 }

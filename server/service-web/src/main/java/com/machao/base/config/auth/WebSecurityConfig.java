@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,25 +37,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			csrf().disable().
 			exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).
 			and().
-			authorizeRequests().
+				authorizeRequests().
 //				antMatchers("/user/me").permitAll().
 				anyRequest().authenticated().
-	        and().
-			formLogin().loginProcessingUrl("/user/login").
+			and().
+		    	addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).
+				formLogin().loginProcessingUrl("/user/login").
 				successHandler(ajaxAuthSuccessHandler).
 				failureHandler(ajaxAuthFailureHandler).
 				usernameParameter("username").
 				passwordParameter("password").
 				permitAll().
 			and().
-			logout().logoutUrl("/user/logout").
+				logout().logoutUrl("/user/logout").
 				logoutSuccessHandler(ajaxLogoutSuccessHandler).
 				permitAll().
-			invalidateHttpSession(true).
+				invalidateHttpSession(true).
 			and().
-			httpBasic().
+				httpBasic().
 			and().
-		    rememberMe().tokenValiditySeconds(TOKEN_VALIDITY_SECONDS);
+		    	rememberMe().tokenValiditySeconds(TOKEN_VALIDITY_SECONDS);
 	}
 	
 	@Autowired
@@ -68,4 +70,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
+	public MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+		MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
+	    filter.setAuthenticationManager(authenticationManagerBean());
+	    filter.setAuthenticationSuccessHandler(ajaxAuthSuccessHandler);
+	    filter.setAuthenticationFailureHandler(ajaxAuthFailureHandler);
+	    filter.setFilterProcessesUrl("/user/login");
+	    return filter;
+	}
+
 }

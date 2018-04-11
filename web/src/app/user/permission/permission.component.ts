@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PermissionService} from "../../service/permission.service";
 import {Permission} from "../../model/User";
 
@@ -18,8 +18,8 @@ export class PermissionComponent implements OnInit {
   }
 
   public list() {
-    this.permissionService.list().toPromise().then(resp=>{
-      this.permissionList = resp.json();
+    this.permissionService.list().toPromise().then(json=>{
+      this.permissionList = json as Permission[];
     });
   }
 

@@ -22,7 +22,5 @@ public class MyAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 			AuthenticationException authException) throws IOException, ServletException {
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed: " + authException.getMessage());  
 	}
-
-	
 	
 }

@@ -3,7 +3,7 @@ import {Role} from "../../../model/User";
 import {RoleService} from "../../../service/role.service";
 import {ToastyService} from "ng2-toasty";
 import {BaseCompoent, ToastType} from "../../../BaseCompoent";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import {UserService} from "../../../service/user.service";
 
 @Component({
@@ -30,14 +30,14 @@ export class RoleListComponent extends BaseCompoent implements OnInit {
   }
 
   public list() {
-    this.roleService.list().toPromise().then(resp=>{
-      this.roleList = resp.json();
+    this.roleService.list().toPromise().then(json=>{
+      this.roleList = json as Role[];
     });
   }
 
   public delete(id:number) {
-    this.roleService.delete(id).toPromise().then(resp=>{
-      let role = resp.json();
+    this.roleService.delete(id).toPromise().then(json=>{
+      let role = json as Role;
       super.showToasty(ToastType.info, '角色删除成功', '角色:' + role.name + ' 删除成功');
       this.list();
     }).catch(()=>{
