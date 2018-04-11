@@ -1,9 +1,9 @@
 /**
  * Created by cma2 on 17/7/13.
  */
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import {ToastOptions, ToastyService} from 'ng2-toasty';
 import {OnInit} from "@angular/core";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import {UserService} from "./service/user.service";
 import {User} from "./model/User";
 
@@ -15,12 +15,10 @@ export class BaseCompoent implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.userService.me().subscribe(
-      resp => {
-        if(resp.status == 200) {
-          this.userService.currentUser = resp.json() as User;
-        }
+  public ngOnInit() {
+    this.userService.me().toPromise().then(
+      json => {
+        this.userService.currentUser = json as User;
       },
       error=> {
         this.router.navigate(['/login']);

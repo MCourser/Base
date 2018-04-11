@@ -1,32 +1,33 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
-import {Routes, RouterModule} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./login/login.component";
 import {HomeComponent} from "./home/home.component";
 import {UserService} from "./service/user.service";
 import {PermissionService} from "./service/permission.service";
 import {
-  ComponentLoaderFactory,
-  PositioningService,
   AlertModule,
-  BsDropdownModule,
   BsDropdownConfig,
+  BsDropdownModule,
   BsDropdownState,
-  TooltipModule,
-  ModalModule
+  ComponentLoaderFactory,
+  ModalModule,
+  PaginationModule,
+  PositioningService,
+  TooltipModule
 } from "ngx-bootstrap";
 import {ToastyModule} from 'ng2-toasty';
 import {PermissionComponent} from "./user/permission/permission.component";
 import {RoleComponent} from "./user/role/role.component";
 import {UserComponent} from "./user/user/user.component";
 import {RoleService} from "./service/role.service";
-import { RoleListComponent } from './user/role/role-list/role-list.component';
-import { RoleEditComponent } from './user/role/role-edit/role-edit.component';
-import { UserListComponent } from './user/user/user-list/user-list.component';
-import { UserEditComponent } from './user/user/user-edit/user-edit.component';
+import {RoleListComponent} from './user/role/role-list/role-list.component';
+import {RoleEditComponent} from './user/role/role-edit/role-edit.component';
+import {UserListComponent} from './user/user/user-list/user-list.component';
+import {UserEditComponent} from './user/user/user-edit/user-edit.component';
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   {
@@ -97,12 +98,13 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     BsDropdownModule,
     ToastyModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     AlertModule.forRoot(),
+    PaginationModule.forRoot(),
+    HttpClientModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [

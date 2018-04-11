@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
-import {User} from "../model/User";
 import {BaseCompoent} from "../BaseCompoent";
 import {ToastyService} from "ng2-toasty";
 
@@ -25,13 +24,9 @@ export class HomeComponent extends BaseCompoent implements OnInit {
   }
 
   public logout() {
-    this.userService.logout().subscribe(
-      resp=>{
-        if(resp.status == 200) {
-          this.userService.currentUser = null;
-          this.router.navigate(['/login']);
-        }
-      }
-    );
+    this.userService.logout().toPromise().then(()=>{
+      this.userService.currentUser = null;
+      this.router.navigate(['/login']);
+    });
   }
 }

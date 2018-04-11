@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
-import {Http, RequestOptions, Headers} from '@angular/http';
-import { URLSearchParams } from "@angular/http"
+import {Injectable} from '@angular/core';
 import {User} from "../model/User";
 import {Page} from "../model/Page";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class UserService {
 
   public currentUser: User = null;
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   public login(username: string, password:string) {
-    let data = new URLSearchParams();
-    data.append('username', username);
-    data.append('password', password);
-    return this.http.post('/api/user/login', data);
+    return this.http.post('/api/user/login', {
+      'username': username,
+      'password': password
+    });
   }
 
   public logout() {
@@ -27,7 +26,7 @@ export class UserService {
   }
 
   public list(page: Page) {
-    return this.http.get('/api/user/?page=' + page.page + '&size=' + page.size);
+    return this.http.get('/api/user/?page=' + (page.page-1) + '&size=' + page.size);
   }
 
   public load(id:number) {

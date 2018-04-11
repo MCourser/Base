@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {BaseCompoent} from "../../../BaseCompoent";
+import {BaseCompoent, ToastType} from "../../../BaseCompoent";
 import {ToastyService} from "ng2-toasty";
 import {Router} from "@angular/router";
 import {UserService} from "../../../service/user.service";
 import {Page} from "../../../model/Page";
+import {User} from "../../../model/User";
 
 
 @Component({
@@ -30,8 +31,18 @@ export class UserListComponent extends BaseCompoent implements OnInit {
   }
 
   public list() {
-    this.userService.list(this.page).toPromise().then(resp=>{
-      this.userPage = resp.json();
+    this.userService.list(this.page).toPromise().then(json=>{
+      this.userPage = json;
+    });
+  }
+
+  public delete(id:number) {
+    this.userService.delete(id).toPromise().then(json=>{
+      let user = json as User;
+      super.showToasty(ToastType.info, '角色删除成功', '角色:' + user.name + ' 删除成功');
+      this.list();
+    }).catch(()=>{
+      super.showToasty(ToastType.error, '角色删除失败', '角色正在被使用');
     });
   }
 }

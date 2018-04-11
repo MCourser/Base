@@ -49,8 +49,8 @@ export class RoleEditComponent extends BaseCompoent implements OnInit {
   }
 
   public loadAddModel() {
-    this.permissionService.list().toPromise().then(resp=>{
-      this.permissionList = resp.json();
+    this.permissionService.list().toPromise().then(json=>{
+      this.permissionList = json as Permission[];
       this.permissionList.forEach(permission=>{
         permission['isSelected'] = false;
       });
@@ -58,27 +58,26 @@ export class RoleEditComponent extends BaseCompoent implements OnInit {
   }
 
   public loadEditMode(id:number) {
-    this.permissionService.list().toPromise().then(resp=>{
-      this.permissionList = resp.json();
-      this.roleService.load(id).map(resp=>resp.json() as Role).subscribe(
-        role=>{
-          this.roleForm.id = role.id;
-          this.roleForm.name = role.name;
-          this.roleForm.description = role.description;
+    this.permissionService.list().toPromise().then(json=>{
+      this.permissionList = json as Permission[];
+      this.roleService.load(id).toPromise().then(json=>{
+        let role = json as Role;
+        this.roleForm.id = role.id;
+        this.roleForm.name = role.name;
+        this.roleForm.description = role.description;
 
-          this.permissionList.forEach(permission=>{
-            permission['isSelected'] = false;
+        this.permissionList.forEach(permission=>{
+          permission['isSelected'] = false;
+        });
+        role.permissions.forEach(permissionInRole=>{
+          this.permissionList.forEach(permissionInList=>{
+            if(permissionInList.id == permissionInRole.id) {
+              permissionInList['isSelected'] = true;
+              return;
+            }
           });
-          role.permissions.forEach(permissionInRole=>{
-            this.permissionList.forEach(permissionInList=>{
-              if(permissionInList.id == permissionInRole.id) {
-                permissionInList['isSelected'] = true;
-                return;
-              }
-            });
-          });
-        }
-      );
+        });
+      });
     });
   }
 
@@ -92,16 +91,16 @@ export class RoleEditComponent extends BaseCompoent implements OnInit {
 
     if(!this.isEditMode) {
       delete this.roleForm.id;
-      this.roleService.create(this.roleForm).toPromise().then(resp=>{
-        let role = resp.json();
+      this.roleService.create(this.roleForm).toPromise().then(json=>{
+        let role = json as Role;
         super.showToasty(ToastType.info, '角色创建成功', '角色:' + role.name + ' 创建成功');
         this.router.navigate(['/home/role/list']);
       }).catch(()=>{
         super.showToasty(ToastType.error, '角色创建失败', '请检查输入是否正确');
       });
     } else {
-      this.roleService.update(this.roleForm).toPromise().then(resp=>{
-        let role = resp.json();
+      this.roleService.update(this.roleForm).toPromise().then(json=>{
+        let role = json as Role;
         super.showToasty(ToastType.info, '角色更新成功', '角色:' + role.name + ' 更新成功');
         this.router.navigate(['/home/role/list']);
       }).catch(()=>{

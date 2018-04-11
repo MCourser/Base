@@ -22,7 +22,6 @@ public class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 			Authentication authentication) throws IOException, ServletException {
 		logger.info("Authentication success, {} login successfully", request.getParameter("username"));
 		response.setStatus(HttpServletResponse.SC_OK);
-//		response.sendRedirect("/#/lic_generator");
 	}
 
 }
