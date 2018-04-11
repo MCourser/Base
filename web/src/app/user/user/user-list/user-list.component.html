@@ -1,3 +1,7 @@
+{{page|json}}
+<br>
+{{userPage|json}}
+
 <div>
   <div class="component-container-title">
     <div class="container">
@@ -35,6 +39,11 @@
         <td class="text-right">
           <button class="btn btn-sm btn-success" routerLink="/home/user/{{user.id}}/update" routerLinkActive="active"><i class="icon-edit"></i> 更新</button>
           <button class="btn btn-sm btn-danger" (click)="delete(user.id)"><i class="icon-trash"></i> 删除</button>
+        </td>
+      </tr>
+      <tr *ngFor="let user of userPage.content">
+        <td colspan="3" class="text-right">
+          sfsdfasdf
         </td>
       </tr>
       </tbody>

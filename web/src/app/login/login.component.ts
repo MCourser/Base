@@ -9,7 +9,7 @@ import {User} from "../model/User";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private userLoginForm = {
+  public userLoginForm = {
     username: '',
     password: ''
   };

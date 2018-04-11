@@ -12,8 +12,8 @@ import {Page} from "../../../model/Page";
   styleUrls: ['user-list.component.css']
 })
 export class UserListComponent extends BaseCompoent implements OnInit {
-  private page: Page = new Page();
-  private userPage:any = {};
+  public page: Page = new Page();
+  public userPage:any = {};
 
   constructor(
     protected router: Router,
@@ -30,10 +30,8 @@ export class UserListComponent extends BaseCompoent implements OnInit {
   }
 
   public list() {
-    this.userService.list(this.page).map(resp=>resp.json()).subscribe(
-      userPage=>{
-        this.userPage = userPage;
-      }
-    );
+    this.userService.list(this.page).toPromise().then(resp=>{
+      this.userPage = resp.json();
+    });
   }
 }

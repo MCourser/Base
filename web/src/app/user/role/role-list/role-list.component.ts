@@ -12,7 +12,7 @@ import {UserService} from "../../../service/user.service";
   styleUrls: ['./role-list.component.css']
 })
 export class RoleListComponent extends BaseCompoent implements OnInit {
-  private roleList: Role[] = [];
+  public roleList: Role[] = [];
 
   constructor(
     protected router: Router,
@@ -30,22 +30,18 @@ export class RoleListComponent extends BaseCompoent implements OnInit {
   }
 
   public list() {
-    this.roleService.list().map(resp=>resp.json() as Role[]).subscribe(
-      roles=>{
-        this.roleList = roles;
-      }
-    );
+    this.roleService.list().toPromise().then(resp=>{
+      this.roleList = resp.json();
+    });
   }
 
   public delete(id:number) {
-    this.roleService.delete(id).map(resp=>resp.json() as Role).subscribe(
-      role=>{
-        super.showToasty(ToastType.info, '角色删除成功', '角色:' + role.name + ' 删除成功');
-        this.list();
-      },
-      error=>{
-        super.showToasty(ToastType.error, '角色删除失败', '角色正在被使用');
-      }
-    );
+    this.roleService.delete(id).toPromise().then(resp=>{
+      let role = resp.json();
+      super.showToasty(ToastType.info, '角色删除成功', '角色:' + role.name + ' 删除成功');
+      this.list();
+    }).catch(()=>{
+      super.showToasty(ToastType.error, '角色删除失败', '角色正在被使用');
+    });
   }
 }
