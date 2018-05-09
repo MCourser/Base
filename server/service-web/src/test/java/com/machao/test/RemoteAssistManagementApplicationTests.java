@@ -1,4 +1,4 @@
-package com.cisco.dgc.ram;
+package com.machao.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
