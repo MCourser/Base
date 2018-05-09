@@ -6,7 +6,7 @@ import com.machao.base.exception.RequestParamsErrorException;
 
 public class BaseController {
 	
-	protected void chcekRequestPrams(Errors errors) {
+	protected void checkRequestParams(Errors errors) {
 		if(errors.hasErrors()) {
 			throw new RequestParamsErrorException();
 		}

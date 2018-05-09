@@ -1,7 +1,8 @@
 package com.machao.base.controller;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -86,13 +87,13 @@ public class UserController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:add')")
 	@PostMapping("/")
 	public ResponseEntity<User> create(@Valid @RequestBody UserCreateForm userCreateForm, Errors errors) {
-		super.chcekRequestPrams(errors);
+		super.checkRequestParams(errors);
 		
 		User user = new User();
 		user.setName(userCreateForm.getName());
 		user.setPassword(passwordEncoder.encode(userCreateForm.getPassword()));
 
-		List<Role> roleList = new ArrayList<Role>();
+		Set<Role> roleList = new HashSet<Role>();
 		userCreateForm.getRoles().forEach(roleId->{
 			Role role = roleService.selectByPrimaryKey(roleId);
 			if(role == null) throw new ResourceNotFoundException();
@@ -110,7 +111,7 @@ public class UserController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:update')")
 	@PutMapping("/")
 	public ResponseEntity<User> update(@Valid @RequestBody UserUpdateForm userUpdateForm, Errors errors) {
-		super.chcekRequestPrams(errors);
+		super.checkRequestParams(errors);
 		
 		User user = userService.selectByPrimaryKey(userUpdateForm.getId());
 		if(user == null) throw new UserNotFoundException();
@@ -121,7 +122,7 @@ public class UserController extends BaseController{
 			user.setPassword(passwordEncoder.encode(userUpdateForm.getPassword()));
 		} 
 		
-		List<Role> roleList = new ArrayList<Role>();
+		Set<Role> roleList = new HashSet<Role>();
 		userUpdateForm.getRoles().forEach(roleId->{
 			Role role = roleService.selectByPrimaryKey(roleId);
 			if(role == null) throw new ResourceNotFoundException();

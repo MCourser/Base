@@ -1,6 +1,6 @@
 package com.machao.base.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +28,7 @@ public class Role {
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="t_role_permission", joinColumns={@JoinColumn(name="role_id")}, inverseJoinColumns={@JoinColumn(name="permission_id")})
-	private List<Permission> permissions;
+	private Set<Permission> permissions;
 
 	public Integer getId() {
 		return id;
@@ -54,11 +54,11 @@ public class Role {
 		this.description = description;
 	}
 
-	public List<Permission> getPermissions() {
+	public Set<Permission> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(List<Permission> permissions) {
+	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
 	}
 

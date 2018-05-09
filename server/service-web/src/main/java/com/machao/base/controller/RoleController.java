@@ -1,7 +1,8 @@
 package com.machao.base.controller;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -59,12 +60,12 @@ public class RoleController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/role/', 'role:add')")
 	@PostMapping("/")
 	public ResponseEntity<Role> create(@Valid @RequestBody RoleCreateForm roleCreateForm, Errors errors) {
-		super.chcekRequestPrams(errors);
+		super.checkRequestParams(errors);
 		
 		Role role = new Role();
 		role.setName(roleCreateForm.getName());
 		role.setDescription(roleCreateForm.getDescription());
-		List<Permission> permissionList = new ArrayList<Permission>();
+		Set<Permission> permissionList = new HashSet<Permission>();
 		roleCreateForm.getPermissions().forEach(permissionId->{
 			Permission permission = permissionService.selectByPrimaryKey(permissionId);
 			if(permission == null) throw new ResourceNotFoundException();
@@ -81,14 +82,14 @@ public class RoleController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/role/', 'role:update')")
 	@PutMapping("/")
 	public ResponseEntity<Role> update(@Valid @RequestBody RoleUpdateForm roleUpdateForm, Errors errors) {
-		super.chcekRequestPrams(errors);
+		super.checkRequestParams(errors);
 		
 		Role role = roleService.selectByPrimaryKey(roleUpdateForm.getId());
 		if(role == null) throw new ResourceNotFoundException();
 		
 		role.setName(roleUpdateForm.getName());
 		role.setDescription(roleUpdateForm.getDescription());
-		List<Permission> permissionList = new ArrayList<Permission>();
+		Set<Permission> permissionList = new HashSet<Permission>();
 		roleUpdateForm.getPermissions().forEach(permissionId->{
 			Permission permission = permissionService.selectByPrimaryKey(permissionId);
 			if(permission == null) throw new ResourceNotFoundException();
