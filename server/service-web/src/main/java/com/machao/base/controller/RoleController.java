@@ -53,7 +53,9 @@ public class RoleController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/role/{id}', 'role:load')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Role> load(@PathVariable int id) {
-		return ResponseEntity.ok(roleService.selectByPrimaryKey(id));
+		return this.roleService.findById(id).map(role->{
+			return ResponseEntity.ok(role);
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 	
 	@ApiOperation(value = "Add Role", notes = "add role")
@@ -67,8 +69,7 @@ public class RoleController extends BaseController{
 		role.setDescription(roleCreateForm.getDescription());
 		Set<Permission> permissionList = new HashSet<Permission>();
 		roleCreateForm.getPermissions().forEach(permissionId->{
-			Permission permission = permissionService.selectByPrimaryKey(permissionId);
-			if(permission == null) throw new ResourceNotFoundException();
+			Permission permission = permissionService.findById(permissionId).orElseThrow(ResourceNotFoundException::new);
 			permissionList.add(permission);
 		});
 		role.setPermissions(permissionList);
@@ -84,15 +85,13 @@ public class RoleController extends BaseController{
 	public ResponseEntity<Role> update(@Valid @RequestBody RoleUpdateForm roleUpdateForm, Errors errors) {
 		super.checkRequestParams(errors);
 		
-		Role role = roleService.selectByPrimaryKey(roleUpdateForm.getId());
-		if(role == null) throw new ResourceNotFoundException();
+		Role role = roleService.findById(roleUpdateForm.getId()).orElseThrow(ResourceNotFoundException::new);
 		
 		role.setName(roleUpdateForm.getName());
 		role.setDescription(roleUpdateForm.getDescription());
 		Set<Permission> permissionList = new HashSet<Permission>();
 		roleUpdateForm.getPermissions().forEach(permissionId->{
-			Permission permission = permissionService.selectByPrimaryKey(permissionId);
-			if(permission == null) throw new ResourceNotFoundException();
+			Permission permission = permissionService.findById(permissionId).orElseThrow(ResourceNotFoundException::new);
 			permissionList.add(permission);
 		});
 		role.setPermissions(permissionList);
@@ -106,10 +105,9 @@ public class RoleController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/role/{id}', 'role:delete')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Role> delete(@PathVariable int id) {
-		Role role = roleService.selectByPrimaryKey(id);
-		if(role == null) throw new ResourceNotFoundException();
+		Role role = roleService.findById(id).orElseThrow(ResourceNotFoundException::new);
 		
-		roleService.deleteByPrimaryKey(id);
+		roleService.deleteById(id);
 		
 		return ResponseEntity.ok(role);
 	}

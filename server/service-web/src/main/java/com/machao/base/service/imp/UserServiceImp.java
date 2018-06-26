@@ -1,6 +1,7 @@
 package com.machao.base.service.imp;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,10 +24,10 @@ public class UserServiceImp implements UserService {
 	public User insert(User record) {
 		return this.userRepository.save(record);
 	}
-
+	
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
-		this.userRepository.delete(id);
+	public void deleteById(Integer id) {
+		this.userRepository.deleteById(id);
 	}
 
 	@Override
@@ -35,17 +36,27 @@ public class UserServiceImp implements UserService {
 	}
 	
 	@Override
-	public User selectByPrimaryKey(Integer id) {
-		return userRepository.findOne(id);
+	public Optional<User> findById(Integer id) {
+		return userRepository.findById(id);
 	}
 
+	@Override
+	public Page<User> page(Pageable pageable) {
+		return userRepository.findAll(pageable);
+	}
+	
 	@Override
 	public List<User> list() {
 		return userRepository.findAllByOrderByName();
 	}
+	
+	@Override
+	public Page<User> list(Pageable pageable) {
+		return userRepository.findAllByOrderByName(pageable);
+	}
 
 	@Override
-	public User selectByName(String name) {
+	public Optional<User> findByName(String name) {
 		return userRepository.findByName(name);
 	}
 
@@ -68,13 +79,9 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public boolean hasPermission(Integer id, Object resource, Object permission) {
-		User user = selectByPrimaryKey(id);
-		if(user == null) return false;
-		return hasPermission(user, resource, permission);
+		Optional<User> user = findById(id);
+		if(!user.isPresent()) return false;
+		return hasPermission(user.get(), resource, permission);
 	}
 
-	@Override
-	public Page<User> list(Pageable pageable) {
-		return userRepository.findAllByOrderByName(pageable);
-	}
 }

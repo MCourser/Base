@@ -22,7 +22,9 @@ public class MyPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object resource, Object permission) {
     	logger.info("resource:?, permission:?", resource, permission);
-    	return userService.hasPermission(userService.selectByName(SecurityUtils.getPrincipal().getUsername()), resource, permission);
+    	return userService.findByName(SecurityUtils.getPrincipal().getUsername()).map(user->{
+    		return userService.hasPermission(user, resource, permission);
+    	}).orElse(false);
     }
 
     @Override

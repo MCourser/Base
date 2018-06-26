@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,8 +58,10 @@ public class UserController extends BaseController{
 		if(SecurityUtils.getPrincipal() == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		User currentUser = userService.selectByName(SecurityUtils.getPrincipal().getUsername());
-		return ResponseEntity.ok(currentUser);
+		
+		return this.userService.findByName(SecurityUtils.getPrincipal().getUsername()).map(user->{
+			return ResponseEntity.ok(user);
+		}).orElseThrow(UserNotFoundException::new);
 	}
 	
 	@ApiOperation(value = "List Users", notes = "list system users with page")
@@ -80,7 +82,9 @@ public class UserController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/user/{id}', 'user:load')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> load(@PathVariable int id) {
-		return ResponseEntity.ok(userService.selectByPrimaryKey(id));
+		return this.userService.findById(id).map(user->{
+			return ResponseEntity.ok(user);
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 	
 	@ApiOperation(value = "Add User", notes = "add user")
@@ -95,9 +99,9 @@ public class UserController extends BaseController{
 
 		Set<Role> roleList = new HashSet<Role>();
 		userCreateForm.getRoles().forEach(roleId->{
-			Role role = roleService.selectByPrimaryKey(roleId);
-			if(role == null) throw new ResourceNotFoundException();
-			roleList.add(role);
+			this.roleService.findById(roleId).ifPresent(role->{
+				roleList.add(role);
+			});
 		});
 		user.setRoles(roleList);
 		
@@ -113,37 +117,34 @@ public class UserController extends BaseController{
 	public ResponseEntity<User> update(@Valid @RequestBody UserUpdateForm userUpdateForm, Errors errors) {
 		super.checkRequestParams(errors);
 		
-		User user = userService.selectByPrimaryKey(userUpdateForm.getId());
-		if(user == null) throw new UserNotFoundException();
-		
-		user.setName(userUpdateForm.getName());
-		
-		if(!StringUtils.isEmpty(userUpdateForm.getPassword())) {
-			user.setPassword(passwordEncoder.encode(userUpdateForm.getPassword()));
-		} 
-		
-		Set<Role> roleList = new HashSet<Role>();
-		userUpdateForm.getRoles().forEach(roleId->{
-			Role role = roleService.selectByPrimaryKey(roleId);
-			if(role == null) throw new ResourceNotFoundException();
-			roleList.add(role);
-		});
-		user.setRoles(roleList);
-		
-		User savedUser = userService.update(user);
-		
-		return ResponseEntity.ok(savedUser);
+		return this.userService.findById(userUpdateForm.getId()).map(user->{
+			user.setName(userUpdateForm.getName());
+			
+			if(!StringUtils.isEmpty(userUpdateForm.getPassword())) {
+				user.setPassword(passwordEncoder.encode(userUpdateForm.getPassword()));
+			} 
+			
+			Set<Role> roleList = new HashSet<Role>();
+			userUpdateForm.getRoles().forEach(roleId->{
+				this.roleService.findById(roleId).ifPresent(role->{
+					roleList.add(role);
+				});
+			});
+			user.setRoles(roleList);
+			
+			User savedUser = userService.update(user);
+			
+			return ResponseEntity.ok(savedUser);
+		}).orElseThrow(UserNotFoundException::new);
 	}
 
 	@ApiOperation(value = "Delete User", notes = "delete user")
 	@PreAuthorize("authenticated and hasPermission('/user/{id}', 'user:delete')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> delete(@PathVariable int id) {
-		User user = userService.selectByPrimaryKey(id);
-		if(user == null) throw new UserNotFoundException();
-		
-		userService.deleteByPrimaryKey(id);
-		
-		return ResponseEntity.ok(user);
+		return this.userService.findById(id).map(user->{
+			userService.deleteById(id);
+			return ResponseEntity.ok(user);
+		}).orElseThrow(UserNotFoundException::new);
 	}
 }

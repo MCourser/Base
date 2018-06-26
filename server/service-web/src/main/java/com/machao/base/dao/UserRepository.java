@@ -1,6 +1,7 @@
 package com.machao.base.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ import com.machao.base.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
-	User findByName(String name);
+	Optional<User> findByName(String name);
 
 	List<User> findAllByOrderByName();
 	

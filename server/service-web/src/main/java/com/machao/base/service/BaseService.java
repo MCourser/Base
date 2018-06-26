@@ -1,16 +1,22 @@
 package com.machao.base.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 interface BaseService<T, K> {
 	
-	T insert(T record);
+	T insert(T entity);
 	
-	void deleteByPrimaryKey(K id);
+	void deleteById(K id);
 	
-	T update(T record);
+	T update(T entity);
 	
-	T selectByPrimaryKey(K id);
+	Optional<T> findById(K id);
 	
 	List<T> list();
+	
+	Page<T> page(Pageable pageable);
 }

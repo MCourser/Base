@@ -1,8 +1,11 @@
 package com.machao.base.service.imp;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.machao.base.dao.PermissionRepository;
@@ -16,28 +19,33 @@ public class PermissionServiceImp implements PermissionService {
 	private PermissionRepository permissionRepository;
 
 	@Override
-	public Permission insert(Permission record) {
-		return this.permissionRepository.save(record);
+	public Permission insert(Permission entity) {
+		return permissionRepository.save(entity);
 	}
 
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
-		this.permissionRepository.delete(id);
+	public void deleteById(Integer id) {
+		this.permissionRepository.deleteById(id);
 	}
 
 	@Override
-	public Permission update(Permission record) {
-		return this.permissionRepository.save(record);
+	public Permission update(Permission entity) {
+		return permissionRepository.save(entity);
 	}
 
 	@Override
-	public Permission selectByPrimaryKey(Integer id) {
-		return permissionRepository.findOne(id);
+	public Optional<Permission> findById(Integer id) {
+		return permissionRepository.findById(id);
 	}
 
 	@Override
 	public List<Permission> list() {
 		return permissionRepository.findAll();
+	}
+
+	@Override
+	public Page<Permission> page(Pageable pageable) {
+		return permissionRepository.findAll(pageable);
 	}
 
 }
