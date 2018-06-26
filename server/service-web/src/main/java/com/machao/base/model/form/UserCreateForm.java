@@ -2,8 +2,9 @@ package com.machao.base.model.form;
 
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 
 public class UserCreateForm {
 	@NotBlank
