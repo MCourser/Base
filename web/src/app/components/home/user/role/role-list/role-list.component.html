@@ -1,0 +1,35 @@
+<nb-card>
+  <nb-card-header>
+    <span>
+      <i class="ion ion-md-outlet text-danger"></i>
+      <span> 角色列表</span>
+    </span>
+  </nb-card-header>
+  <nb-card-body class="no-padding">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>名称</th>
+        <th>说明</th>
+        <th>
+          <nb-actions size="small" class="float-right" >
+            <nb-action icon="icon ion-md-add-circle text-success" routerLink="/home/role/add" routerLinkActive="active"></nb-action>
+          </nb-actions>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let role of roleList">
+        <td>{{role.name}}</td>
+        <td>{{role.description}}</td>
+        <td>
+          <nb-actions size="small" class="float-right" >
+            <nb-action icon="icon ion-md-create text-primary" routerLink="/home/role/{{role.id}}/update" routerLinkActive="active"></nb-action>
+            <nb-action icon="icon ion-md-trash text-danger" (click)="delete(role.id)"></nb-action>
+          </nb-actions>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

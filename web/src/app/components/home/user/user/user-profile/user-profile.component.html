@@ -1,0 +1,21 @@
+<nb-card>
+  <nb-card-header>
+    <span>修改个人信息</span>
+  </nb-card-header>
+  <nb-card-body>
+    <form>
+      <div class="form-group">
+        <label for="inputUpdatePassword">新密码</label>
+        <input type="text" class="form-control" id="inputUpdatePassword" name="inputUpdatePassword" placeholder="请输入密码" [(ngModel)]="userForm.password">
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer class="full-width-flex-justify-content-flex-start">
+    <button type="submit" class="btn btn-hero-success btn-icon" (click)="changeCurrentUserPassword()">
+      <i class="ion ion-md-checkmark"></i>
+    </button>
+  </nb-card-footer>
+</nb-card>
+
+
+

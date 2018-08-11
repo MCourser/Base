@@ -1,0 +1,91 @@
+<nb-card>
+  <nb-card-body class="drop-zone" ng2FileDrop
+                [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                [uploader]="getFileUploader()"
+                (fileOver)="fileOverBase($event)"
+                (click)="fileInput.click()">
+     <span>
+       <i class="ion ion-md-cloud-upload text-danger"></i>
+      <span> 拖拽或者点击上传文件</span>
+    </span>
+    <input #fileInput [hidden]="true" type="file" ng2FileSelect [uploader]="getFileUploader()" multiple [accept]="getAcceptContentType()" />
+  </nb-card-body>
+</nb-card>
+
+<nb-card *ngIf="getFileUploader().queue.length">
+  <nb-card-header>
+    <span>
+       <i class="ion ion-md-cloud-upload text-danger"></i>
+      <span> 图片上传</span>
+    </span>
+    <nb-actions size="small" class="float-right">
+      <nb-action icon="icon ion-md-close text-danger" (click)="getFileUploader().clearQueue()"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body class="no-padding">
+    <div class="file-upload-progress" [style.width.%]="getFileUploader().progress"></div>
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>文件名</th>
+        <th>大小</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of getFileUploader()?.queue">
+        <td><strong>{{ item?.file?.name }}</strong></td>
+        <td>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+        <td>
+          <nb-actions size="small" class="float-right" >
+            <nb-action icon="icon ion-md-close text-danger" (click)="item.remove()"></nb-action>
+          </nb-actions>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+    <button type="submit" class="btn btn-hero-success btn-icon" (click)="getFileUploader().uploadAll()">
+      <i class="ion ion-md-checkmark"></i>
+    </button>
+  </nb-card-footer>
+</nb-card>
+
+<nb-card>
+  <nb-card-header>
+    <span>
+       <i class="ion ion-md-image text-danger"></i>
+      <span> 图片</span>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <nb-card class="col-md-3" *ngFor="let staticResouce of staticResourcePage.content">
+        <!--<nb-sidebar-header>-->
+          <!--<nb-actions size="small" class="float-right">-->
+            <!--<nb-action icon="icon ion-md-close-circle text-danger" (click)="delete(staticResouce.id)"></nb-action>-->
+          <!--</nb-actions>-->
+        <!--</nb-sidebar-header>-->
+        <nb-card-body>
+          <img [src]="'/api/static-resource/file/image/' + staticResouce.id + '?w=200'">
+        </nb-card-body>
+        <nb-card-footer>
+          <span>{{staticResouce.originName}}</span>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <pagination class="float-right"
+                (pageChanged)="list($event)"
+                [boundaryLinks]="true"
+                [maxSize]="10"
+                [rotate]="false"
+                [itemsPerPage]="12"
+                [totalItems]="staticResourcePage['totalElements']"
+                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+  </nb-card-footer>
+</nb-card>
+
+

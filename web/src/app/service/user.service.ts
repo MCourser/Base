@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {User} from "../model/User";
-import {Page} from "../model/Page";
-import {HttpClient} from "@angular/common/http";
+import {User} from '../model/User';
+import {Page} from '../model/Page';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class UserService {
@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public login(username: string, password:string) {
+  public login(username: string, password: string) {
     return this.http.post('/api/user/login', {
       'username': username,
       'password': password
@@ -26,10 +26,10 @@ export class UserService {
   }
 
   public list(page: Page) {
-    return this.http.get('/api/user/?page=' + (page.page-1) + '&size=' + page.size);
+    return this.http.get('/api/user/?page=' + (page.page - 1) + '&size=' + page.itemsPerPage);
   }
 
-  public load(id:number) {
+  public load(id: number) {
     return this.http.get('/api/user/' + id);
   }
 
@@ -41,7 +41,14 @@ export class UserService {
     return this.http.put('/api/user/', form);
   }
 
-  public delete(id:number) {
+  public delete(id: number) {
     return this.http.delete('/api/user/' + id);
+  }
+
+  public changeCurrentUserPassword(password: string) {
+    return this.http.put('/api/user/password/', {
+        password: password
+      }
+    );
   }
 }

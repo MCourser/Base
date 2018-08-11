@@ -1,0 +1,31 @@
+server:
+  ssl:
+    enabled: false
+  address: 127.0.0.1
+  port: 15000
+  servlet:
+    context-path: /static-resource
+  compression:
+    enabled: true
+    mime-types:
+    - application/vnd.apple.mpegurls2
+static-resource:
+  burglar-chain:
+    enable: true
+    referers: 
+      - http://localhost:4200/
+      - http://127.0.0.1:4200/
+      - http://localhost:15000/
+      - http://127.0.0.1:15000/
+spring:
+  application:
+    name: service-static-resource
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+logging:
+  level:
+    org.springframework.web: info
+    com.machao.base.statis_resource: debug

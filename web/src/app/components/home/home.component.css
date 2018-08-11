@@ -1,0 +1,32 @@
+.full-width-flex-justify-content-space-between {
+  width: 100%;
+  display: flex;
+  justify-content: space-between !important;
+}
+
+.music-player {
+  width: 100%;
+  display: flex;
+  justify-content: space-between !important;
+}
+.music-player>.music-player-progress-wrapper {
+  width: 100%;
+  padding-top: 0.6rem;
+  cursor: pointer;
+}
+.music-player>.music-player-progress-wrapper>progressbar {
+  height: 0.2rem !important;
+  cursor: pointer;
+}
+.music-player>.music-player-progress-wrapper>.progressbar-indicator {
+  display: flex;
+  position: relative;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: -0.4rem;
+  left: -0.4rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}

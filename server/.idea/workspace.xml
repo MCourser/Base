@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3eb2a970-dc0c-41c5-84c3-e2a4f73e73dd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/PermissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/PermissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/RestExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/RestExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/PermissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/PermissionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/dao/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/RequestParamsErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/RequestParamsErrorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/ResourceNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/exception/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/persit/Permission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/persit/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/persit/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/RoleCreateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/RoleCreateForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/RoleUpdateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/RoleUpdateForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/UserCreateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/model/form/UserCreateForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/BasePageableService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/BaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/PermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/PermissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/PermissionServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/PermissionServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/RoleServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/RoleServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/UserServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/java/com/machao/base/service/imp/UserServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-web/src/main/resources/sql/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/service-web/src/main/resources/sql/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/.angular-cli.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/.angular-cli.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../web/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/karma.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/karma.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/BaseCompoent.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/app.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/home/home.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/home/home.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/home/home.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/home/home.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/login/login.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/login/login.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/login/login.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/login/login.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/model/Page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/model/Page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/model/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/model/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/service/permission.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/service/permission.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/service/role.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/service/role.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/service/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/app/service/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/permission/permission.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/permission/permission.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/permission/permission.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/permission/permission.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-edit/role-edit.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-edit/role-edit.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-edit/role-edit.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-edit/role-edit.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-list/role-list.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-list/role-list.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-list/role-list.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role-list/role-list.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/role/role.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-edit/user-edit.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-edit/user-edit.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-edit/user-edit.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-edit/user-edit.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-list/user-list.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-list/user-list.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-list/user-list.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user-list/user-list.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/app/user/user/user.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/font-awesome-ie7.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/font-awesome.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/assets/bootstrap/3.3.7/css/font/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/polyfills.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/polyfills.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/tsconfig.app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/tsconfig.spec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/tslint.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/tslint.json" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/lib-static-resource/target/classes/" />
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <ignored path="$PROJECT_DIR$/service-web/target/classes/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1956564624">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="94" />
+    <option name="y" value="23" />
+    <option name="width" value="1400" />
+    <option name="height" value="933" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="lib-static-resource" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3eb2a970-dc0c-41c5-84c3-e2a4f73e73dd" name="Default Changelist" comment="" />
+      <created>1533183440643</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1533183440643</updated>
+      <workItem from="1533183446793" duration="39000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="39000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="94" y="23" width="1400" height="933" extended-state="0" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2496318" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+</project>

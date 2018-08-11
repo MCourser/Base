@@ -1,7 +1,6 @@
 package com.machao.base.controller;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -27,10 +26,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.machao.base.exception.ResourceNotFoundException;
 import com.machao.base.exception.UserNotFoundException;
-import com.machao.base.model.Role;
-import com.machao.base.model.User;
 import com.machao.base.model.form.UserCreateForm;
+import com.machao.base.model.form.UserPasswordUpdateForm;
 import com.machao.base.model.form.UserUpdateForm;
+import com.machao.base.model.persit.Role;
+import com.machao.base.model.persit.User;
 import com.machao.base.service.RoleService;
 import com.machao.base.service.UserService;
 import com.machao.base.utils.SecurityUtils;
@@ -51,43 +51,32 @@ public class UserController extends BaseController{
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@ApiOperation(value = "Current User", notes = "load current user")
+	@ApiOperation("current user")
 	@PreAuthorize("authenticated")
 	@GetMapping("/me")
 	public ResponseEntity<User> currnet() {
 		if(SecurityUtils.getPrincipal() == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		
-		return this.userService.findByName(SecurityUtils.getPrincipal().getUsername()).map(user->{
-			return ResponseEntity.ok(user);
-		}).orElseThrow(UserNotFoundException::new);
+		return ResponseEntity.ok(obtainCurrentUser());
 	}
 	
-	@ApiOperation(value = "List Users", notes = "list system users with page")
+	@ApiOperation("list users")
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:list')")
 	@GetMapping("/")
 	public ResponseEntity<Page<User>> list(Pageable pageable) {
-		return ResponseEntity.ok(userService.list(pageable));
+		return ResponseEntity.ok(userService.findAllByOrderByNameExceptCurrentUser(pageable));
 	}
 	
-	@ApiOperation(value = "List Users", notes = "list system users")
-	@PreAuthorize("authenticated and hasPermission('/user/', 'user:list')")
-	@GetMapping("/all")
-	public ResponseEntity<List<User>> listAll() {
-		return ResponseEntity.ok(userService.list());
-	}
-	
-	@ApiOperation(value = "Load User", notes = "load a user by id")
+	@ApiOperation("load user")
 	@PreAuthorize("authenticated and hasPermission('/user/{id}', 'user:load')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> load(@PathVariable int id) {
-		return this.userService.findById(id).map(user->{
-			return ResponseEntity.ok(user);
-		}).orElseThrow(ResourceNotFoundException::new);
+		User user = this.userService.findById(id).orElseThrow(ResourceNotFoundException::new);
+		return ResponseEntity.ok(user);
 	}
 	
-	@ApiOperation(value = "Add User", notes = "add user")
+	@ApiOperation("add user")
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:add')")
 	@PostMapping("/")
 	public ResponseEntity<User> create(@Valid @RequestBody UserCreateForm userCreateForm, Errors errors) {
@@ -111,40 +100,51 @@ public class UserController extends BaseController{
 	}
 
 
-	@ApiOperation(value = "Update User", notes = "update user")
+	@ApiOperation("update user")
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:update')")
 	@PutMapping("/")
 	public ResponseEntity<User> update(@Valid @RequestBody UserUpdateForm userUpdateForm, Errors errors) {
 		super.checkRequestParams(errors);
 		
-		return this.userService.findById(userUpdateForm.getId()).map(user->{
-			user.setName(userUpdateForm.getName());
-			
-			if(!StringUtils.isEmpty(userUpdateForm.getPassword())) {
-				user.setPassword(passwordEncoder.encode(userUpdateForm.getPassword()));
-			} 
-			
-			Set<Role> roleList = new HashSet<Role>();
-			userUpdateForm.getRoles().forEach(roleId->{
-				this.roleService.findById(roleId).ifPresent(role->{
-					roleList.add(role);
-				});
+		User user = userService.findById(userUpdateForm.getId()).orElseThrow(UserNotFoundException::new);
+		
+		user.setName(userUpdateForm.getName());
+		
+		if(!StringUtils.isEmpty(userUpdateForm.getPassword())) {
+			user.setPassword(passwordEncoder.encode(userUpdateForm.getPassword()));
+		} 
+		
+		Set<Role> roleList = new HashSet<Role>();
+		userUpdateForm.getRoles().forEach(roleId->{
+			this.roleService.findById(roleId).ifPresent(role->{
+				roleList.add(role);
 			});
-			user.setRoles(roleList);
-			
-			User savedUser = userService.update(user);
-			
-			return ResponseEntity.ok(savedUser);
-		}).orElseThrow(UserNotFoundException::new);
+		});
+		user.setRoles(roleList);
+		
+		User savedUser = userService.update(user);
+		
+		return ResponseEntity.ok(savedUser);
 	}
 
-	@ApiOperation(value = "Delete User", notes = "delete user")
+	@ApiOperation("delete user")
 	@PreAuthorize("authenticated and hasPermission('/user/{id}', 'user:delete')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> delete(@PathVariable int id) {
-		return this.userService.findById(id).map(user->{
-			userService.deleteById(id);
-			return ResponseEntity.ok(user);
-		}).orElseThrow(UserNotFoundException::new);
+		User user = this.userService.findById(id).orElseThrow(UserNotFoundException::new);
+		userService.deleteById(id);
+		return ResponseEntity.ok(user);
+	}
+	
+	@ApiOperation("change current user password")
+	@PreAuthorize("authenticated")
+	@PutMapping("/password/")
+	public ResponseEntity<User> changeCurrentUserPassword(@Valid @RequestBody UserPasswordUpdateForm userPasswordUpdateForm, Errors errors) {
+		super.checkRequestParams(errors);
+		
+		User user = obtainCurrentUser();
+		user.setPassword(passwordEncoder.encode(userPasswordUpdateForm.getPassword()));
+		User updatedUser = userService.update(user);
+		return ResponseEntity.ok(updatedUser);
 	}
 }

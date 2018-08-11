@@ -2,9 +2,22 @@ server:
   port: 8080
   servlet:
     context-path: /api
+  compression:
+    enabled: true
+    mime-types:
+    - application/json
+    - application/xml
+    - text/html
+    - text/xml
+    - text/plain
 spring:
   application:  
     name: service-web
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
   datasource:
     url: jdbc:mysql://localhost:3306/base
     username: root
@@ -29,6 +42,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+static-resource:
+  root-path: /Users/cma2/Documents/upload
 logging:
   level:
     org.springframework.web: info

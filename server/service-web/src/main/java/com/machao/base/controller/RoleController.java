@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.machao.base.exception.ResourceNotFoundException;
-import com.machao.base.model.Permission;
-import com.machao.base.model.Role;
 import com.machao.base.model.form.RoleCreateForm;
 import com.machao.base.model.form.RoleUpdateForm;
+import com.machao.base.model.persit.Permission;
+import com.machao.base.model.persit.Role;
 import com.machao.base.service.PermissionService;
 import com.machao.base.service.RoleService;
 
@@ -42,23 +42,22 @@ public class RoleController extends BaseController{
 	private PermissionService permissionService;
 	
 	
-	@ApiOperation(value = "List Roles", notes = "list system roles")
+	@ApiOperation("list roles")
 	@PreAuthorize("authenticated and hasPermission('/role/', 'role:list')")
 	@GetMapping("/")
 	public ResponseEntity<List<Role>> list() {
 		return ResponseEntity.ok(roleService.list());
 	}
 	
-	@ApiOperation(value = "Load Role", notes = "load a role by id")
+	@ApiOperation("load role")
 	@PreAuthorize("authenticated and hasPermission('/role/{id}', 'role:load')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Role> load(@PathVariable int id) {
-		return this.roleService.findById(id).map(role->{
-			return ResponseEntity.ok(role);
-		}).orElseThrow(ResourceNotFoundException::new);
+		Role role = this.roleService.findById(id).orElseThrow(ResourceNotFoundException::new);
+		return ResponseEntity.ok(role);
 	}
 	
-	@ApiOperation(value = "Add Role", notes = "add role")
+	@ApiOperation("add role")
 	@PreAuthorize("authenticated and hasPermission('/role/', 'role:add')")
 	@PostMapping("/")
 	public ResponseEntity<Role> create(@Valid @RequestBody RoleCreateForm roleCreateForm, Errors errors) {
@@ -79,7 +78,7 @@ public class RoleController extends BaseController{
 		return ResponseEntity.ok(savedRole);
 	}
 	
-	@ApiOperation(value = "Update Role", notes = "update role")
+	@ApiOperation("update role")
 	@PreAuthorize("authenticated and hasPermission('/role/', 'role:update')")
 	@PutMapping("/")
 	public ResponseEntity<Role> update(@Valid @RequestBody RoleUpdateForm roleUpdateForm, Errors errors) {
@@ -101,7 +100,7 @@ public class RoleController extends BaseController{
 		return ResponseEntity.ok(savedRole);
 	}
 	
-	@ApiOperation(value = "Delete Role", notes = "delete role")
+	@ApiOperation("delete role")
 	@PreAuthorize("authenticated and hasPermission('/role/{id}', 'role:delete')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Role> delete(@PathVariable int id) {

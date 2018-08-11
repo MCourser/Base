@@ -1,0 +1,11 @@
+.drop-zone {
+  border: dotted 3px lightgray;
+  min-height: 30px;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.file-upload-progress {
+  height: 1px;
+  background-color: red;
+}

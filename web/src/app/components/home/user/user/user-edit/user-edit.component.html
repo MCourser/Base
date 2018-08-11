@@ -1,0 +1,37 @@
+<nb-card>
+  <nb-card-header>
+    <span>
+      <i class="ion ion-md-outlet text-danger"></i>
+      <span> {{isEditMode?'修改用户':'添加用户'}}</span>
+    </span>
+    <nb-actions size="small" class="float-right">
+      <nb-action icon="icon ion-md-close text-danger" routerLink="/home/user/list" routerLinkActive="active"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body>
+    <form name="userForm">
+      <div class="form-group">
+        <label for="userFormName">用户名</label>
+        <input type="text" class="form-control" id="userFormName" name="userFormName" placeholder="请输入用户名称" [(ngModel)]="userForm.name">
+      </div>
+      <div class="form-group">
+        <label for="userFormPassword">密码</label>
+        <input type="password" class="form-control" id="userFormPassword" name="userFormPassword" placeholder="请输入用户密码" [(ngModel)]="userForm.password">
+      </div>
+      <div class="form-group">
+        <label for="userFormRole">角色</label>
+        <div class="row" id="userFormRole">
+          <nb-checkbox class="col-xxxl-3 col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 col-is-12"
+                       *ngFor="let role of roleList"
+                       [value]="role['isSelected']"
+                       (change)="role.isSelected = !role.isSelected">{{role.name}}</nb-checkbox>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer class="full-width-flex-justify-content-flex-start">
+    <button type="submit" class="btn btn-hero-success btn-icon" (click)="submit()">
+      <i class="ion ion-md-checkmark"></i>
+    </button>
+  </nb-card-footer>
+</nb-card>

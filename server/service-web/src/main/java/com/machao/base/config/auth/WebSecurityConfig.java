@@ -38,7 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).
 			and().
 				authorizeRequests().
-//				antMatchers("/user/me").permitAll().
+				mvcMatchers("/static-resource//file/image/{id}").permitAll().
+				mvcMatchers("/static-resource//file/audio/{id}").permitAll().
+				mvcMatchers("/static-resource//file/video/{id}").permitAll().
 				anyRequest().authenticated().
 			and().
 		    	addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.machao.base.model.Permission;
+import com.machao.base.model.persit.Permission;
 import com.machao.base.service.PermissionService;
 
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ public class PermissionController extends BaseController{
 	@Autowired
 	private PermissionService permissionService;
 	
-	@ApiOperation(value = "List Permissions", notes = "list api permissions")
+	@ApiOperation("list permissions")
 	@PreAuthorize("authenticated and hasPermission('/permission/', 'permission:list')")
 	@GetMapping("/")
 	public ResponseEntity<List<Permission>> list() {

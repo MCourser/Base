@@ -1,0 +1,20 @@
+<nb-layout center="true">
+  <nb-layout-column>
+    <nb-card>
+      <nb-card-body>
+        <form clnass="form-signin">
+          <h2 class="form-signin-heading">Base</h2>
+          <label for="inputUsername" class="sr-only">用户名</label>
+          <input type="text" id="inputUsername" name="username" class="form-control" placeholder="请输入用户名" required autofocus [(ngModel)]="userLoginForm.username">
+          <label for="inputPassword" class="sr-only">密码</label>
+          <input type="password" id="inputPassword" name="password" class="form-control" placeholder="请输入密码" required [(ngModel)]="userLoginForm.password">
+          <br>
+          <nb-alert status="danger" *ngIf="isLoginFail">
+            登录失败！请确认用户名跟密码是否正确.
+          </nb-alert>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="login()">登录</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

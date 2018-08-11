@@ -3,6 +3,7 @@ package com.machao.base.model.form;
 import javax.validation.constraints.NotNull;
 
 public class RoleUpdateForm extends RoleCreateForm {
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	private Integer id;
@@ -15,5 +16,4 @@ public class RoleUpdateForm extends RoleCreateForm {
 		this.id = id;
 	}
 
-	
 }

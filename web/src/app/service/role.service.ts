@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class RoleService {
@@ -10,7 +10,7 @@ export class RoleService {
     return this.http.get('/api/role/');
   }
 
-  public load(id:number) {
+  public load(id: number) {
     return this.http.get('/api/role/' + id);
   }
 
@@ -22,8 +22,8 @@ export class RoleService {
     return this.http.put('/api/role/', form);
   }
 
-  public delete(id:number) {
-    return this.http.delete('/api/role/'+ id);
+  public delete(id: number) {
+    return this.http.delete('/api/role/' + id);
   }
 
 }

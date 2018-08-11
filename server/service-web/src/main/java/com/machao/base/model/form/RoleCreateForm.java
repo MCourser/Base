@@ -1,15 +1,22 @@
 package com.machao.base.model.form;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
 
-public class RoleCreateForm {
+
+public class RoleCreateForm implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Length(max=20)
 	@NotBlank
 	private String name;
 
+	@Length(max=255)
 	@NotBlank
 	private String description;
 	

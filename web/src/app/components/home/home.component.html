@@ -1,0 +1,50 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <div class="full-width-flex-justify-content-space-between">
+      <nb-actions size="medium">
+        <nb-action *ngIf="!isShowSidebarToggleButton">
+          <h4 class="font-w-regular">Base</h4>
+        </nb-action>
+        <nb-action icon="icon ion-md-menu" *ngIf="isShowSidebarToggleButton" (click)="toggleSidebar()"></nb-action>
+      </nb-actions>
+      <nb-actions size="medium" class="float-right">
+        <nb-action>
+          <nb-user size="medium" [name]="userService.currentUser?.name" [nbContextMenu]="userItems">
+            <ng-template #templateRef>
+              <button>123</button>
+              <button>123</button>
+            </ng-template>
+          </nb-user>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </nb-layout-header>
+
+  <nb-sidebar [state]="sidebarState" tag="home-sidebar" [fixed]="isShowSidebarToggleButton">
+    <nb-menu [items]="menuItems"></nb-menu>
+  </nb-sidebar>
+
+  <nb-layout-column>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer>
+    <span [hidden]="musicPlayer().isMusicMode()">抄代码的超超版权所有©2018-{{getCurrentYear()}}</span>
+    <div class="music-player" [hidden]="!musicPlayer().isMusicMode()">
+      <nb-actions size="small">
+        <nb-action icon="icon ion-md-pause text-danger" *ngIf="musicPlayer().isPlaying()" (click)="musicPlayer().toggle()"></nb-action>
+        <nb-action icon="icon ion-md-play text-danger" *ngIf="musicPlayer().isPause()" (click)="musicPlayer().toggle()"></nb-action>
+      </nb-actions>
+      <div class="music-player-progress-wrapper" (click)="musicPlayer().seek(($event.clientX-$event.target.offsetLeft)/$event.target.clientWidth)">
+        <progressbar max="100" [value]="musicPlayer().progress()" type="danger" [animate]="true" [style.pointerEvents]="'none'"></progressbar>
+        <div class="progressbar-indicator bg-danger" [style.pointerEvents]="'none'" [style.marginLeft.%]="musicPlayer().progress()"><i></i></div>
+      </div>
+      <nb-actions size="small">
+        <nb-action>
+          <span>{{musicPlayer().currentTime()/60 | number:'1.0-0'}}:{{musicPlayer().currentTime()%60 | number: '1.0-0'}}/{{musicPlayer().duration()/60 | number: '1.0-0'}}:{{musicPlayer().duration()%60 | number: '1.0-0'}}</span>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </nb-layout-footer>
+</nb-layout>
+

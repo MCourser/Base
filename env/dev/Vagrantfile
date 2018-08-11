@@ -4,6 +4,8 @@ Vagrant.configure("2") do |config|
   # config.ssh.password = "123456"
   
   config.vm.network "forwarded_port", guest: 3306, host: 3306
+  config.vm.network "forwarded_port", guest: 5672, host: 5672
+  config.vm.network "forwarded_port", guest: 15672, host: 15672
   
   config.vm.provider "virtualbox" do |vb|
     vb.name = "ubuntu-4-base"
@@ -16,9 +18,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "docker",
-    images: ["mysql:5.6"]
+    images: ["mysql:5.6", "rabbitmq:3", "rabbitmq:3-management"]
 
   config.vm.provision "docker", run: "always" do |d|
     d.run "mysql", image: "mysql:5.6", args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=base"
+    d.run "rabbitmq", image: "rabbitmq:latest", args: "-p 5672:5672"
+    d.run "rabbitmq-management", image: "rabbitmq:3-management", args: "-p 15672:15672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=123456"
   end
 end

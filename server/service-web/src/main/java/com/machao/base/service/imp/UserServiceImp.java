@@ -6,59 +6,45 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.machao.base.dao.UserRepository;
-import com.machao.base.model.Permission;
-import com.machao.base.model.Role;
-import com.machao.base.model.User;
+import com.machao.base.model.persit.Permission;
+import com.machao.base.model.persit.Role;
+import com.machao.base.model.persit.User;
 import com.machao.base.service.UserService;
+import com.machao.base.utils.SecurityUtils;
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImp extends BaseServiceImp<User, Integer> implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Override
-	public User insert(User record) {
-		return this.userRepository.save(record);
+	public JpaRepository<User, Integer> obtainJpaRepository() {
+		return userRepository;
 	}
 	
-	@Override
-	public void deleteById(Integer id) {
-		this.userRepository.deleteById(id);
-	}
-
-	@Override
-	public User update(User record) {
-		return this.userRepository.save(record);
-	}
-	
-	@Override
-	public Optional<User> findById(Integer id) {
-		return userRepository.findById(id);
-	}
-
-	@Override
-	public Page<User> page(Pageable pageable) {
-		return userRepository.findAll(pageable);
-	}
-	
-	@Override
-	public List<User> list() {
-		return userRepository.findAllByOrderByName();
-	}
-	
-	@Override
-	public Page<User> list(Pageable pageable) {
-		return userRepository.findAllByOrderByName(pageable);
-	}
-
 	@Override
 	public Optional<User> findByName(String name) {
 		return userRepository.findByName(name);
 	}
+	
+
+	@Override
+	public List<User> findAllByOrderByNameExceptCurrentUser() {
+		org.springframework.security.core.userdetails.User currentUser = SecurityUtils.getPrincipal();
+		return userRepository.findAllByOrderByNameExceptUser(currentUser.getUsername());
+	}
+
+	@Override
+	public Page<User> findAllByOrderByNameExceptCurrentUser(Pageable pageable) {
+		org.springframework.security.core.userdetails.User currentUser = SecurityUtils.getPrincipal();
+		return userRepository.findAllByOrderByNameExceptUser(currentUser.getUsername(), pageable);
+	}
+
 
 	@Override
 	public boolean hasPermission(User user, Object resource, Object permission) {
@@ -83,5 +69,4 @@ public class UserServiceImp implements UserService {
 		if(!user.isPresent()) return false;
 		return hasPermission(user.get(), resource, permission);
 	}
-
 }
