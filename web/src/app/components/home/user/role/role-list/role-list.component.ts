@@ -15,10 +15,10 @@ export class RoleListComponent extends BaseCompoent implements OnInit {
   public roleList: Role[] = [];
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    private roleService: RoleService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public roleService: RoleService
   ) {
     super(router, toastyService, userService);
   }

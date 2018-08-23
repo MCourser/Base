@@ -17,10 +17,10 @@ export class PictureStaticResourceComponent extends BaseStaticResourceComponent 
   public staticResourcePage: any = {};
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    protected staticResourceService: StaticResourceService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public staticResourceService: StaticResourceService
   ) {
     super(router, toastyService, userService, staticResourceService);
     this.getFileUploader().onCompleteAll = this.onCompleteAll.bind(this);

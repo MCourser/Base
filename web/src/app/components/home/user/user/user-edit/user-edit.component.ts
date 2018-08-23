@@ -22,11 +22,11 @@ export class UserEditComponent extends BaseCompoent implements OnInit {
   };
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    private roleService: RoleService,
-    private activatedRoute: ActivatedRoute
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public roleService: RoleService,
+    public activatedRoute: ActivatedRoute
   ) {
     super(router, toastyService, userService);
   }

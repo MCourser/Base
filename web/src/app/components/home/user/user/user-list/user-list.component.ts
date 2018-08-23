@@ -17,9 +17,9 @@ export class UserListComponent extends BaseCompoent implements OnInit {
   public userPage: any = {};
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService
   ) {
     super(router, toastyService, userService);
   }

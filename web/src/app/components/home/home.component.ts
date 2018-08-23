@@ -70,12 +70,12 @@ export class HomeComponent extends BaseCompoent implements OnInit, OnDestroy {
   public sidebarState = ''; // `expanded`|`collapsed`|`compacted`
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    protected mediaBreakpointsService: NbMediaBreakpointsService,
-    protected sidebarService: NbSidebarService,
-    protected musicPlayerService: MusicPlayerService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public mediaBreakpointsService: NbMediaBreakpointsService,
+    public sidebarService: NbSidebarService,
+    public musicPlayerService: MusicPlayerService
   ) {
     super(router, toastyService, userService);
     this.sizing(window.innerWidth, window.innerHeight);

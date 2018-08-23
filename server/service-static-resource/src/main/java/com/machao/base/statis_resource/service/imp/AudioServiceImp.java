@@ -35,9 +35,9 @@ public class AudioServiceImp implements AudioService{
 	@Override
 	public void convert(AudioConvertRequest audioConvertRequest) {
 		try {
-			ffmpegAutioHandler.handle(audioConvertRequest.getFile());
+			this.ffmpegAutioHandler.handle(audioConvertRequest.getFile());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error to convert file {} to m3u8, exception: {}", audioConvertRequest.getFile().getAbsolutePath(), e.getMessage());
 		} 
 	}
 
@@ -49,7 +49,7 @@ public class AudioServiceImp implements AudioService{
 			FileUtils.deleteDirectory(file.getParentFile());
 			return new AudioDeleteResponse(true);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("error to delete file {} to m3u8, exception: {}", audioDeleteRequest.getFile().getAbsolutePath(), e.getMessage());
 			return new AudioDeleteResponse(false);
 		}
 	}
@@ -59,21 +59,25 @@ public class AudioServiceImp implements AudioService{
 	public AudioPlayListResponse handle(AudioPlayListRequest audioPlayListRequest) {
 		AudioPlayListResponse audioPlayListResponse = new AudioPlayListResponse();
 		
-		File file = audioPlayListRequest.getFile();
-		if(ffmpegAutioHandler.isLocked(file)) return null;
-		
-		for(File subFile : file.getParentFile().listFiles()) {
-			String subFileName = subFile.getName();
-			if(subFileName.endsWith(Type.m3u8.toString())) {
-				audioPlayListResponse.setM3u8File(subFile);
-			} else if(subFileName.endsWith(Type.ts.toString())) {
-				audioPlayListResponse.addTsFile(subFile);
+		try {
+			File file = audioPlayListRequest.getFile();
+			if(ffmpegAutioHandler.isLocked(file)) return null;
+			
+			for(File subFile : file.getParentFile().listFiles()) {
+				String subFileName = subFile.getName();
+				if(subFileName.endsWith(Type.m3u8.toString())) {
+					audioPlayListResponse.setM3u8File(subFile);
+				} else if(subFileName.endsWith(Type.ts.toString())) {
+					audioPlayListResponse.addTsFile(subFile);
+				}
 			}
-		}
-		
-		this.staticResourcePathUtils.bindPath4AudioPlayListResponse(audioPlayListResponse);
+			
+			this.staticResourcePathUtils.bindPath4AudioPlayListResponse(audioPlayListResponse);
 
-		logger.debug("audio generate url: {} for file: {}", audioPlayListResponse.getUrl(), audioPlayListResponse.getM3u8File().getAbsolutePath());
+			logger.debug("generate audio url: {} for file: {}", audioPlayListResponse.getUrl(), audioPlayListRequest.getFile().getAbsolutePath());
+		} catch (Exception e) {
+			logger.debug("error to generate audio url for file: {}, exception: {}", audioPlayListRequest.getFile().getAbsolutePath(), e.getMessage());
+		}
 		
 		return audioPlayListResponse;
 	}

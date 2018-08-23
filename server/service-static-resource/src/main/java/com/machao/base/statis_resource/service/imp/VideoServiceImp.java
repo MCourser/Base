@@ -35,9 +35,9 @@ public class VideoServiceImp implements VideoService{
 	@Override
 	public void convert(VideoConvertRequest videoConvertRequest) {
 		try {
-			ffmpegVideoHandler.handle(videoConvertRequest.getFile());
+			this.ffmpegVideoHandler.handle(videoConvertRequest.getFile());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error to convert file {} to m3u8, exception: {}", videoConvertRequest.getFile().getAbsolutePath(), e.getMessage());
 		} 
 	}
 
@@ -49,7 +49,7 @@ public class VideoServiceImp implements VideoService{
 			FileUtils.deleteDirectory(file.getParentFile());
 			return new VideoDeleteResponse(true);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("error to delete file {} to m3u8, exception: {}", videoDeleteRequest.getFile().getAbsolutePath(), e.getMessage());
 			return new VideoDeleteResponse(false);
 		}
 	}
@@ -59,21 +59,25 @@ public class VideoServiceImp implements VideoService{
 	public VideoPlayListResponse handle(VideoPlayListRequest videoPlayListRequest) {
 		VideoPlayListResponse VideoPlayListResponse = new VideoPlayListResponse();
 		
-		File file = videoPlayListRequest.getFile();
-		if(ffmpegVideoHandler.isLocked(file)) return null;
-		
-		for(File subFile : file.getParentFile().listFiles()) {
-			String subFileName = subFile.getName();
-			if(subFileName.endsWith(Type.m3u8.toString())) {
-				VideoPlayListResponse.setM3u8File(subFile);
-			} else if(subFileName.endsWith(Type.ts.toString())) {
-				VideoPlayListResponse.addTsFile(subFile);
+		try {
+			File file = videoPlayListRequest.getFile();
+			if(ffmpegVideoHandler.isLocked(file)) return null;
+			
+			for(File subFile : file.getParentFile().listFiles()) {
+				String subFileName = subFile.getName();
+				if(subFileName.endsWith(Type.m3u8.toString())) {
+					VideoPlayListResponse.setM3u8File(subFile);
+				} else if(subFileName.endsWith(Type.ts.toString())) {
+					VideoPlayListResponse.addTsFile(subFile);
+				}
 			}
-		}
-		
-		this.staticResourcePathUtils.bindPath4VideoPlayListResponse(VideoPlayListResponse);
+			
+			this.staticResourcePathUtils.bindPath4VideoPlayListResponse(VideoPlayListResponse);
 
-		logger.debug("Video generate url: {} for file: {}", VideoPlayListResponse.getUrl(), VideoPlayListResponse.getM3u8File().getAbsolutePath());
+			logger.debug("generate video url: {} for file: {}", VideoPlayListResponse.getUrl(), videoPlayListRequest.getFile().getAbsolutePath());
+		} catch (Exception e) {
+			logger.debug("error to generate video url for file: {}, exception: {}", videoPlayListRequest.getFile().getAbsolutePath(), e.getMessage());
+		}
 		
 		return VideoPlayListResponse;
 	}

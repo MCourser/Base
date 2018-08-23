@@ -18,11 +18,11 @@ export class AudioStaticResourceComponent extends BaseStaticResourceComponent im
   public staticResourcePage: any = {};
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    protected staticResourceService: StaticResourceService,
-    protected musicPlayerService: MusicPlayerService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public staticResourceService: StaticResourceService,
+    public musicPlayerService: MusicPlayerService
   ) {
     super(router, toastyService, userService, staticResourceService);
     this.getFileUploader().onCompleteAll = this.onCompleteAll.bind(this);

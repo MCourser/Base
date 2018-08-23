@@ -16,9 +16,9 @@ export class UserProfileComponent extends BaseCompoent  implements OnInit {
   };
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService
   ) {
     super(router, toastyService, userService);
   }

@@ -24,12 +24,12 @@ export class RoleEditComponent extends BaseCompoent implements OnInit {
   };
 
   constructor(
-    protected router: Router,
-    protected toastyService: ToasterService,
-    protected userService: UserService,
-    private permissionService: PermissionService,
-    private roleService: RoleService,
-    private activatedRoute: ActivatedRoute
+    public router: Router,
+    public toastyService: ToasterService,
+    public userService: UserService,
+    public permissionService: PermissionService,
+    public roleService: RoleService,
+    public activatedRoute: ActivatedRoute
   ) {
     super(router, toastyService, userService);
   }
