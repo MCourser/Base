@@ -7,7 +7,7 @@
 	<groupId>com.machao.base</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>${project.version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Base</name>
 	<description>Base Project</description>
@@ -20,13 +20,16 @@
 	</parent>
 
 	<properties>
-		<project.version>0.0.1-SNAPSHOT</project.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<modules>
+		<module>lib-commons</module>
+		<module>lib-model</module>
+		<module>lib-dao</module>
+		<module>lib-service</module>
 		<module>lib-mq</module>
 		<module>lib-static-resource</module>
 		<module>service-static-resource</module>
@@ -45,7 +48,27 @@
 				<artifactId>ffmpeg</artifactId>
 				<version>4.0.1-1.4.2</version>
 			</dependency>
-
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>lib-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>lib-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>lib-dao</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>lib-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>lib-mq</artifactId>
@@ -76,14 +99,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lib-static-resource</artifactId>
+	<artifactId>lib-model</artifactId>
 	<packaging>jar</packaging>
 
-	<name>lib-static-resource</name>
-	<description>static resource handle lib</description>
+	<name>lib-model</name>
+	<description>model lib</description>
 
 	<parent>
 		<groupId>com.machao.base</groupId>
@@ -24,14 +24,20 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.bytedeco.javacpp-presets</groupId>
-			<artifactId>opencv-platform</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.bytedeco.javacpp-presets</groupId>
-			<artifactId>ffmpeg</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- my module -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>lib-commons</artifactId>

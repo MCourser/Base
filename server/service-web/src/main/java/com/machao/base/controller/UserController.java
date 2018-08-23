@@ -65,7 +65,7 @@ public class UserController extends BaseController{
 	@PreAuthorize("authenticated and hasPermission('/user/', 'user:list')")
 	@GetMapping("/")
 	public ResponseEntity<Page<User>> list(Pageable pageable) {
-		return ResponseEntity.ok(userService.findAllByOrderByNameExceptCurrentUser(pageable));
+		return ResponseEntity.ok(userService.findAllByOrderByNameExceptUser(SecurityUtils.getPrincipal().getUsername(), pageable));
 	}
 	
 	@ApiOperation("load user")

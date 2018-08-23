@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.machao.base.config.StaticResourceConfig;
 import com.machao.base.dao.StaticResourceRepository;
+import com.machao.base.model.config.StaticResourceConfig;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
 import com.machao.base.model.persit.User;

@@ -14,7 +14,6 @@
 		<groupId>com.machao.base</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath />
 	</parent>
 
 	<properties>
@@ -53,6 +52,10 @@
 			<groupId>com.machao.base</groupId>
 			<artifactId>lib-static-resource</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>lib-service</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -60,6 +63,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<outputDirectory>../../app/server</outputDirectory>
+					<finalName>service-static-resource</finalName>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

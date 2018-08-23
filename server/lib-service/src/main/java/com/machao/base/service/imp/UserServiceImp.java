@@ -14,7 +14,6 @@ import com.machao.base.model.persit.Permission;
 import com.machao.base.model.persit.Role;
 import com.machao.base.model.persit.User;
 import com.machao.base.service.UserService;
-import com.machao.base.utils.SecurityUtils;
 
 @Service
 public class UserServiceImp extends BaseServiceImp<User, Integer> implements UserService {
@@ -34,15 +33,13 @@ public class UserServiceImp extends BaseServiceImp<User, Integer> implements Use
 	
 
 	@Override
-	public List<User> findAllByOrderByNameExceptCurrentUser() {
-		org.springframework.security.core.userdetails.User currentUser = SecurityUtils.getPrincipal();
-		return userRepository.findAllByOrderByNameExceptUser(currentUser.getUsername());
+	public List<User> findAllByOrderByNameExceptUser(String username) {
+		return userRepository.findAllByOrderByNameExceptUser(username);
 	}
 
 	@Override
-	public Page<User> findAllByOrderByNameExceptCurrentUser(Pageable pageable) {
-		org.springframework.security.core.userdetails.User currentUser = SecurityUtils.getPrincipal();
-		return userRepository.findAllByOrderByNameExceptUser(currentUser.getUsername(), pageable);
+	public Page<User> findAllByOrderByNameExceptUser(String username, Pageable pageable) {
+		return userRepository.findAllByOrderByNameExceptUser(username, pageable);
 	}
 
 

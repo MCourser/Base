@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.machao.base.config.StaticResourceConfig;
 import com.machao.base.exception.ResourceNotFoundException;
 import com.machao.base.exception.StaticResourceDeleteErrorException;
+import com.machao.base.model.config.StaticResourceConfig;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
 import com.machao.base.model.persit.User;

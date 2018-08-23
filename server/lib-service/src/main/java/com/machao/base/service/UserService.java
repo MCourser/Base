@@ -19,6 +19,6 @@ public interface UserService extends BaseService<User, Integer> {
 	
 	boolean hasPermission(Integer id, Object resource, Object permission);
 	
-	List<User> findAllByOrderByNameExceptCurrentUser();
-	Page<User> findAllByOrderByNameExceptCurrentUser(Pageable pageable);
+	List<User> findAllByOrderByNameExceptUser(String username);
+	Page<User> findAllByOrderByNameExceptUser(String username, Pageable pageable);
 }

@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lib-static-resource</artifactId>
+	<artifactId>lib-dao</artifactId>
 	<packaging>jar</packaging>
 
-	<name>lib-static-resource</name>
-	<description>static resource handle lib</description>
+	<name>lib-dao</name>
+	<description>dao lib</description>
 
 	<parent>
 		<groupId>com.machao.base</groupId>
@@ -24,17 +24,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.bytedeco.javacpp-presets</groupId>
-			<artifactId>opencv-platform</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.bytedeco.javacpp-presets</groupId>
-			<artifactId>ffmpeg</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>lib-commons</artifactId>
+			<artifactId>lib-model</artifactId>
 		</dependency>
 	</dependencies>
 </project>
