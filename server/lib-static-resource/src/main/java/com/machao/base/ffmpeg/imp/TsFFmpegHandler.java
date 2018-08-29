@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileExistsException;
-
+import com.machao.base.commons.FileUtils;
 import com.machao.base.ffmpeg.FFmpegHandler;
 import com.machao.base.ffmpeg.config.FFmpegConfig;
 import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedArchException;
@@ -20,6 +19,7 @@ public class TsFFmpegHandler extends FFmpegHandler {
 		List<String> commands = new ArrayList<String>();
 		
 		commands.add(FFmpegConfig.getFFmpeg().getAbsolutePath());
+		commands.add("-y");
 		commands.add("-i");
 		commands.add(srcFile.getAbsolutePath());
 		commands.add("-c");
@@ -29,13 +29,9 @@ public class TsFFmpegHandler extends FFmpegHandler {
 			commands.add("h264_mp4toannexb");
 		}
 		
-		File destFile = new File(destFolder.getAbsolutePath(), obtainFileName(srcFile) + Type.ts.getSuffix());
-		if(destFile.exists()) throw new FileExistsException(destFile);
-		
+		File destFile = new File(destFolder.getAbsolutePath(), FileUtils.obtainFileName(srcFile) + Type.ts.getSuffix());
 		callback.onGenerateOutputFile(destFile);
 		commands.add(destFile.getAbsolutePath());
-		
-		System.out.println(commands);
 		
 		return commands;
 	}

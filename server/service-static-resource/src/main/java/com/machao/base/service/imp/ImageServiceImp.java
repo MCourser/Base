@@ -34,22 +34,21 @@ public class ImageServiceImp implements ImageService {
 	@Override
 	public ImageResizingResponse handle(ImageResizingRequest imageResizingRequest) {
 		ImageResizingResponse imageResizingResponse = new ImageResizingResponse();
+		StaticResource staticResource = imageResizingRequest.getStaticResource();
 		
 		try {
-			StaticResource staticResource = imageResizingRequest.getStaticResource();
-			System.out.println(">>>>>" + staticResource);
 			File srcFile = new File(staticResource.getPath());
 			File destFile = this.handler.resize(srcFile, imageResizingRequest.getWidth(), imageResizingRequest.getHeight(), (width, height)->{
-				return new File(srcFile.getParent(), (width + "x" + height + "_" + srcFile.getName())).getAbsolutePath();
+				imageResizingRequest.setWidth(width);
+				imageResizingRequest.setHeight(height);
+				return ImageService.obtainFile(srcFile, width, height).getAbsolutePath();
 			});
 			
-			imageResizingResponse.setFile(destFile);
-			imageResizingResponse.setContentType(staticResource.getContentType());
-			this.staticResourcePathUtils.bindPath4ImageResizingResponse(imageResizingResponse);
+			logger.debug("image resizing and generate url for file: {}", destFile);
 			
-			logger.debug("image resizing and generate url: {} for file: {}, context-type: {}", imageResizingResponse.getUrl(), imageResizingResponse.getFile(), imageResizingResponse.getContentType());
+			return new ImageResizingResponse(staticResourcePathUtils.imageUrl(staticResource, imageResizingRequest.getWidth(), imageResizingRequest.getHeight()));
 		} catch (Exception e) {
-			logger.error("error to resize image and generate url: {} for file: {}, context-type: {}, exception: {}", imageResizingResponse.getUrl(), imageResizingResponse.getFile(), imageResizingResponse.getContentType(), e.getMessage());
+			logger.error("error to resize image resizing and generate url for file: {}, exception: {}", staticResource.getPath(), e.getMessage());
 		}
 		
 		return imageResizingResponse;
@@ -59,6 +58,7 @@ public class ImageServiceImp implements ImageService {
 	@Override
 	public ImageDeleteResponse handle(ImageDeleteRequest imageDeleteRequest) {
 		StaticResource staticResource = imageDeleteRequest.getStaticResource();
+		
 		try {
 			File file = new File(staticResource.getPath());
 			FileUtils.deleteDirectory(file.getParentFile());

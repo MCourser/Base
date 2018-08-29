@@ -102,13 +102,6 @@ public abstract class FFmpegHandler {
 	
 	protected abstract List<String> obtainCommands(File srcFile, File destFolder, HandlerCallback callback)  throws UnsupportedPlatformException, UnsupportedArchException, IOException;
 	
-	protected String obtainFileName(File file) {
-		String fileName = file.getName();
-		int dotIndex = fileName.indexOf('.');
-		if(dotIndex < 0) return file.getName();
-		return fileName.substring(0, dotIndex);
-	}
-	
 	private class PrintStream extends Thread {
 		private InputStream inputStream = null;
 		private StringBuffer lineBuffer = new StringBuffer();

@@ -1,5 +1,6 @@
 package com.machao.base.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.machao.base.model.exception.RequestParamsErrorException;
 import com.machao.base.model.exception.ResourceNotFoundException;
-import com.machao.base.model.mq.image.response.ImageResizingResponse;
-import com.machao.base.utils.StaticResourcePathUtils;
+import com.machao.base.model.persit.StaticResource;
+import com.machao.base.model.persit.StaticResource.Type;
+import com.machao.base.service.ImageService;
+import com.machao.base.service.StaticResourceService;
 
 @RestController
 @RestControllerAdvice 
@@ -24,21 +29,23 @@ public class StaticResourceImageController extends BaseController{
 	private static final Logger logger = LoggerFactory.getLogger(StaticResourceImageController.class);
 
 	@Autowired
-	private StaticResourcePathUtils staticResourcePathUtils;
+	private StaticResourceService staticResourceService;
 
 	@GetMapping("/image/{uuid}")
-	public void image(@PathVariable String uuid, HttpServletRequest request, HttpServletResponse response) {
+	public void image(@PathVariable String uuid, @RequestParam(name="w") int width, @RequestParam(name="h") int height, HttpServletRequest request, HttpServletResponse response) {
 		super.checkBurglarChain(request);
 		
-		ImageResizingResponse imageResizingResponse = staticResourcePathUtils.getAttribute(uuid, ImageResizingResponse.class);
-		if(!imageResizingResponse.getFile().exists()) throw new ResourceNotFoundException();
+		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		if(!Type.image.equals(staticResource.getType())) throw new RequestParamsErrorException();
+		
+		File file = ImageService.obtainFile(new File(staticResource.getPath()), width, height);
+		if(!file.exists()) throw new ResourceNotFoundException();
 		
 		try {
-			byte[] bytes = FileUtils.readFileToByteArray(imageResizingResponse.getFile());
-			response.setContentType(imageResizingResponse.getContentType());
-			response.getOutputStream().write(bytes);
+			response.setContentType(staticResource.getContentType());
+			response.getOutputStream().write(FileUtils.readFileToByteArray(file));
 		} catch (IOException e) {
-			logger.error("file: {} send error", imageResizingResponse.getFile());
+			logger.error("file: {} send error", file);
 		}
 	}
 }

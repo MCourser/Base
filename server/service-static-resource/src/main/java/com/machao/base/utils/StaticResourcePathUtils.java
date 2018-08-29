@@ -3,25 +3,17 @@ package com.machao.base.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Component;
 
-import com.machao.base.model.exception.ResourceNotFoundException;
-import com.machao.base.model.mq.audio.response.AudioPlayListResponse;
-import com.machao.base.model.mq.image.response.ImageResizingResponse;
-import com.machao.base.model.mq.video.response.VideoPlayListResponse;
+import com.machao.base.ffmpeg.FFmpegHandler.Type;
+import com.machao.base.model.persit.StaticResource;
 
 @Component
 public class StaticResourcePathUtils {
-	
-	@Autowired
-    private ServletContext servletContext;
 	
 	@Autowired
     private ServerProperties serverProperties;
@@ -32,28 +24,28 @@ public class StaticResourcePathUtils {
 		return sb.toString();
 	}
 	
-	public void bindPath4ImageResizingResponse(ImageResizingResponse imageResizingResponse) {
-		String uuid = UUID.randomUUID().toString();
-		String url = obtainContextPath() + "/image/" + uuid;
-		imageResizingResponse.setUrl(url);
-		
-		this.setAttribute(uuid, imageResizingResponse);
+	public String imageUrl(StaticResource staticResource, int width, int height) {
+		return obtainContextPath() + "/image/" + staticResource.getId() + "?w=" + width + "&h=" + height;
 	}
 	
-	public void bindPath4AudioPlayListResponse(AudioPlayListResponse audioPlayListResponse) {
-		String uuid = UUID.randomUUID().toString();
-		String url = obtainContextPath() + "/audio/" + uuid + "/";
-		audioPlayListResponse.setUrl(url);
-		
-		this.setAttribute(uuid, audioPlayListResponse);
+	public String audioUrl(StaticResource staticResource) {
+		return obtainContextPath() + "/audio/" + staticResource.getId() + "/";
 	}
 	
-	public String bindPath4AudioPlayListM3u8File(String uuid, File file) throws IOException {
+	public String videoUrl(StaticResource staticResource) {
+		return obtainContextPath() + "/video/" + staticResource.getId() + "/";
+	}
+
+	public String obtainAudioM3u8FileContent(StaticResource staticResource) throws IOException {
+		if(!StaticResource.Type.audio.equals(staticResource.getType())) return "";
+		
 		StringBuffer newLines = new StringBuffer();
-		List<String> lines = FileUtils.readLines(file);
+		File file = new File(staticResource.getPath());
+		File m3u8File = new File(file.getParent(), com.machao.base.commons.FileUtils.obtainFileName(file) + Type.m3u8.getSuffix());
+		List<String> lines = FileUtils.readLines(m3u8File);
 		lines.forEach(line->{
 			if(!line.startsWith("#")) {
-				String tsUrl = obtainContextPath() + "/audio/" + uuid + "/" + line;
+				String tsUrl = obtainContextPath() + "/audio/" + staticResource.getId() + "/" + line;
 				newLines.append(tsUrl).append('\n');
 			} else {
 				newLines.append(line).append('\n');
@@ -62,36 +54,21 @@ public class StaticResourcePathUtils {
 		return newLines.toString();
 	}
 	
-	public void bindPath4VideoPlayListResponse(VideoPlayListResponse videoPlayListResponse) {
-		String uuid = UUID.randomUUID().toString();
-		String url = obtainContextPath() + "/video/" + uuid + "/";
-		videoPlayListResponse.setUrl(url);
+	public String obtainVideoM3u8FileContent(StaticResource staticResource) throws IOException {
+		if(!StaticResource.Type.video.equals(staticResource.getType())) return "";
 		
-		this.setAttribute(uuid, videoPlayListResponse);
-	}
-	
-	public String bindPath4VideoPlayListM3u8File(String uuid, File file) throws IOException {
 		StringBuffer newLines = new StringBuffer();
-		List<String> lines = FileUtils.readLines(file);
+		File file = new File(staticResource.getPath());
+		File m3u8File = new File(file.getParent(), com.machao.base.commons.FileUtils.obtainFileName(file) + Type.m3u8.getSuffix());
+		List<String> lines = FileUtils.readLines(m3u8File);
 		lines.forEach(line->{
 			if(!line.startsWith("#")) {
-				String tsUrl = obtainContextPath() + "/video/" + uuid + "/" + line;
+				String tsUrl = obtainContextPath() + "/video/" + staticResource.getId() + "/" + line;
 				newLines.append(tsUrl).append('\n');
 			} else {
 				newLines.append(line).append('\n');
 			}
 		});
 		return newLines.toString();
-	}
-	
-	public void setAttribute(String uuid, Object obj) {
-		this.servletContext.setAttribute(uuid, obj);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getAttribute(String uuid, Class<T> clazz) {
-		T retT =  (T) servletContext.getAttribute(uuid);
-		if(retT == null) throw new ResourceNotFoundException();
-		return retT;
 	}
 }

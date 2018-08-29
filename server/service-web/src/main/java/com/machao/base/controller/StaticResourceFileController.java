@@ -60,10 +60,9 @@ public class StaticResourceFileController extends BaseController{
 		try {
 			File srcFile = new File(staticResource.getPath());
 			if(!srcFile.exists()) throw new ResourceNotFoundException();
-			System.out.println(">>>>>>>>" + srcFile.getAbsolutePath());
 			ImageResizingResponse imageResizingResponse = imageMessageService.resizing(new ImageResizingRequest(staticResource, w == null ? 0 : w, h == null ? 0 : h));
 			
-			logger.debug("redirect to {}, for file: {}", imageResizingResponse.getUrl(), imageResizingResponse.getFile());
+			logger.debug("redirect to {}, for file: {}", imageResizingResponse.getUrl(), srcFile);
 			
 			response.sendRedirect(imageResizingResponse.getUrl());
 		} catch (IOException e) {
@@ -85,7 +84,7 @@ public class StaticResourceFileController extends BaseController{
 			AudioPlayListResponse audioPlayListResponse = audioMessageService.palylist(new AudioPlayListRequest(staticResource));
 			if(audioPlayListResponse == null)  throw new ResourceNotFoundException();
 			
-			logger.debug("redirect to {}, for file: {}", audioPlayListResponse.getUrl(), file.getAbsolutePath());
+			logger.debug("redirect to {}, for file: {}", audioPlayListResponse.getUrl(), file);
 			
 			response.sendRedirect(audioPlayListResponse.getUrl());
 		} catch (IOException e) {
@@ -106,16 +105,11 @@ public class StaticResourceFileController extends BaseController{
 			VideoPlayListResponse videoPlayListResponse = videoMessageService.palylist(new VideoPlayListRequest(staticResource));
 			if(videoPlayListResponse == null)  throw new ResourceNotFoundException();
 			
-			logger.debug("redirect to {}, for file: {}", videoPlayListResponse.getUrl(), file.getAbsolutePath());
+			logger.debug("redirect to {}, for file: {}", videoPlayListResponse.getUrl(), file);
 			
 			response.sendRedirect(videoPlayListResponse.getUrl());
 		} catch (IOException e) {
 			logger.error("error to handle audio: {}", staticResource.getPath());
 		}
-	}
-	
-	
-	public static void main(String[] args) {
-		System.out.println(new File("/"));
 	}
 }

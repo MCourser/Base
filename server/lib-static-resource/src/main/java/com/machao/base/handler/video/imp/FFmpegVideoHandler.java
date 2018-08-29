@@ -13,10 +13,9 @@ import com.machao.base.ffmpeg.imp.M3u8FFmpegHandler;
 import com.machao.base.ffmpeg.imp.TsFFmpegHandler;
 import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedArchException;
 import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedPlatformException;
-import com.machao.base.handler.LockableHandler;
 import com.machao.base.handler.video.VideoHandler;
 
-public class FFmpegVideoHandler extends LockableHandler implements VideoHandler {
+public class FFmpegVideoHandler implements VideoHandler {
 	private Logger logger = LoggerFactory.getLogger(FFmpegVideoHandler.class);
 	
 	private TsFFmpegHandler tsFFmpegHandler = new TsFFmpegHandler();
@@ -28,25 +27,23 @@ public class FFmpegVideoHandler extends LockableHandler implements VideoHandler 
 		this.tsFFmpegHandler.handle(file, file.getParentFile(), new HandlerCallback() {
 			@Override
 			public void onStart() {
-				logger.info("TsFFmpegHandler ==> start: {}", file.getAbsolutePath());
-				FFmpegVideoHandler.this.lock(file);
+				logger.info("TsFFmpegHandler ==> start: {}", file);
 			}
 			
 			@Override
 			public void onGenerateOutputFile(File destFile) {
-				logger.info("TsFFmpegHandler ==> new file: {}", destFile.getAbsolutePath());
+				logger.info("TsFFmpegHandler ==> new file: {}", destFile);
 				tsList.add(destFile);
 			}
 			
 			@Override
 			public void onFinished() {
-				logger.info("TsFFmpegHandler ==> finished: {}", file.getAbsolutePath());
-				FFmpegVideoHandler.this.unlock(file);
+				logger.info("TsFFmpegHandler ==> finished: {}", file);
 			}
 			
 			@Override
 			public void onError(String error) {
-				logger.error("TsFFmpegHandler ==> error: {}, {}", file.getAbsolutePath(), error);
+				logger.error("TsFFmpegHandler ==> error: {}, {}", file, error);
 			}
 		});
 		
@@ -55,25 +52,23 @@ public class FFmpegVideoHandler extends LockableHandler implements VideoHandler 
 			this.m3u8FFmpegHandler.handle(destFile, destFile.getParentFile(), new HandlerCallback() {
 				@Override
 				public void onStart() {
-					logger.info("M3u8FFmpegHandler ==> start: {}", file.getAbsolutePath());
-					FFmpegVideoHandler.this.lock(file);
+					logger.info("M3u8FFmpegHandler ==> start: {}", file);
 				}
 				
 				@Override
 				public void onGenerateOutputFile(File destFile) {
-					logger.info("M3u8FFmpegHandler ==> new file: {}", destFile.getAbsolutePath());
+					logger.info("M3u8FFmpegHandler ==> new file: {}", destFile);
 					m3u8List.add(destFile);
 				}
 				
 				@Override
 				public void onFinished() {
-					logger.info("M3u8FFmpegHandler ==> finished: {}", file.getAbsolutePath());
-					FFmpegVideoHandler.this.unlock(file);
+					logger.info("M3u8FFmpegHandler ==> finished: {}", file);
 				}
 				
 				@Override
 				public void onError(String error) {
-					logger.error("M3u8FFmpegHandler ==> error: {}, {}", file.getAbsolutePath(), error);
+					logger.error("M3u8FFmpegHandler ==> error: {}, {}", file, error);
 				}
 			});
 		}

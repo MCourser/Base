@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.machao.base.ffmpeg.FFmpegHandler.Type;
 import com.machao.base.handler.video.imp.FFmpegVideoHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.video.request.VideoConvertRequest;
@@ -58,6 +57,7 @@ public class VideoServiceImp implements VideoService{
 	@Override
 	public VideoDeleteResponse handle(VideoDeleteRequest videoDeleteRequest) {
 		StaticResource staticResource = videoDeleteRequest.getStaticResource();
+		
 		try {
 			File file = new File(staticResource.getPath());
 			FileUtils.deleteDirectory(file.getParentFile());
@@ -71,30 +71,8 @@ public class VideoServiceImp implements VideoService{
 	@RabbitListener(queues = QueueName.VideoPlayList)
 	@Override
 	public VideoPlayListResponse handle(VideoPlayListRequest videoPlayListRequest) {
-		VideoPlayListResponse VideoPlayListResponse = new VideoPlayListResponse();
-		
 		StaticResource staticResource = videoPlayListRequest.getStaticResource();
-		try {
-			File file = new File(staticResource.getPath());
-			if(ffmpegVideoHandler.isLocked(file)) return null;
-			
-			for(File subFile : file.getParentFile().listFiles()) {
-				String subFileName = subFile.getName();
-				if(subFileName.endsWith(Type.m3u8.toString())) {
-					VideoPlayListResponse.setM3u8File(subFile);
-				} else if(subFileName.endsWith(Type.ts.toString())) {
-					VideoPlayListResponse.addTsFile(subFile);
-				}
-			}
-			
-			this.staticResourcePathUtils.bindPath4VideoPlayListResponse(VideoPlayListResponse);
-
-			logger.debug("generate video url: {} for file: {}", VideoPlayListResponse.getUrl(), staticResource.getPath());
-		} catch (Exception e) {
-			logger.debug("error to generate video url for file: {}, exception: {}", staticResource.getPath(), e.getMessage());
-		}
-		
-		return VideoPlayListResponse;
+		return new VideoPlayListResponse(staticResourcePathUtils.videoUrl(staticResource));
 	}
 	
 }

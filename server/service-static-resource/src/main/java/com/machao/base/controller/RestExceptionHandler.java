@@ -18,7 +18,8 @@ public class RestExceptionHandler {
 	@ExceptionHandler({
 		ResourceNotFoundException.class,
 		RequestParamsErrorException.class,
-		UnauthorizedException.class
+		UnauthorizedException.class,
+		IllegalStateException.class
 	})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public @ResponseBody ResponseEntity<ExceptionReponse> dataIntegrityViolationException(Exception e) {

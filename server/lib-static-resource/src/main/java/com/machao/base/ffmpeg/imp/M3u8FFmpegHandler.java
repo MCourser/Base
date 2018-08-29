@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileExistsException;
-
+import com.machao.base.commons.FileUtils;
 import com.machao.base.ffmpeg.FFmpegHandler;
 import com.machao.base.ffmpeg.config.FFmpegConfig;
 import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedArchException;
@@ -20,6 +19,7 @@ public class M3u8FFmpegHandler extends FFmpegHandler {
 		List<String> commands = new ArrayList<String>();
 		
 		commands.add(FFmpegConfig.getFFmpeg().getAbsolutePath());
+		commands.add("-y");
 		commands.add("-i");
 		commands.add(srcFile.getAbsolutePath());
 		commands.add("-c");
@@ -31,14 +31,12 @@ public class M3u8FFmpegHandler extends FFmpegHandler {
 //		commands.add("-segment_time");
 //		commands.add("5");
 		
-		File destM3u8File = new File(destFolder.getAbsolutePath(), obtainFileName(srcFile) + Type.m3u8.getSuffix());
-		if(destM3u8File.exists()) throw new FileExistsException(destM3u8File);
-		
+		File destM3u8File = new File(destFolder.getAbsolutePath(), FileUtils.obtainFileName(srcFile) + Type.m3u8.getSuffix());
 		callback.onGenerateOutputFile(destM3u8File);
 		commands.add("-segment_list");
 		commands.add(destM3u8File.getAbsolutePath());
 		
-		File destTsFile = new File(destFolder.getAbsolutePath(), obtainFileName(srcFile) + "-%03d" + Type.ts.getSuffix());
+		File destTsFile = new File(destFolder.getAbsolutePath(), FileUtils.obtainFileName(srcFile) + "-%03d" + Type.ts.getSuffix());
 		commands.add(destTsFile.getAbsolutePath());
 		
 		return commands;

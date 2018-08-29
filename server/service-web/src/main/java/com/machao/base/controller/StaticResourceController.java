@@ -126,7 +126,7 @@ public class StaticResourceController extends BaseController{
 				this.videoMessageService.convert(new VideoConvertRequest(savedStaticResource));
 			}
 			
-			logger.info("file {} uploaded to {}", file.getOriginalFilename(), targetFile.getAbsolutePath());
+			logger.info("file {} uploaded to {}", file.getOriginalFilename(), targetFile);
 		} catch (IOException e) {
 			this.staticResourceService.deleteById(savedStaticResource.getId());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

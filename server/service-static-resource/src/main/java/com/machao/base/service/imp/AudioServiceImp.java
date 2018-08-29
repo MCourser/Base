@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.machao.base.ffmpeg.FFmpegHandler.Type;
 import com.machao.base.handler.audio.imp.FFmpegAutioHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.audio.request.AudioConvertRequest;
@@ -40,6 +39,7 @@ public class AudioServiceImp implements AudioService{
 	@Override
 	public void convert(AudioConvertRequest audioConvertRequest) {
 		StaticResource staticResource = audioConvertRequest.getStaticResource();
+		
 		try {
 			File file = new File(staticResource.getPath());
 			this.ffmpegAutioHandler.handle(file);
@@ -58,6 +58,7 @@ public class AudioServiceImp implements AudioService{
 	@Override
 	public AudioDeleteResponse handle(AudioDeleteRequest audioDeleteRequest) {
 		StaticResource staticResource = audioDeleteRequest.getStaticResource();
+		
 		try {
 			File file = new File(staticResource.getPath());
 			FileUtils.deleteDirectory(file.getParentFile());
@@ -71,30 +72,8 @@ public class AudioServiceImp implements AudioService{
 	@RabbitListener(queues = QueueName.AudioPlayList)
 	@Override
 	public AudioPlayListResponse handle(AudioPlayListRequest audioPlayListRequest) {
-		AudioPlayListResponse audioPlayListResponse = new AudioPlayListResponse();
-		
 		StaticResource staticResource = audioPlayListRequest.getStaticResource();
-		try {
-			File file = new File(staticResource.getPath());
-			if(ffmpegAutioHandler.isLocked(file)) return null;
-			
-			for(File subFile : file.getParentFile().listFiles()) {
-				String subFileName = subFile.getName();
-				if(subFileName.endsWith(Type.m3u8.toString())) {
-					audioPlayListResponse.setM3u8File(subFile);
-				} else if(subFileName.endsWith(Type.ts.toString())) {
-					audioPlayListResponse.addTsFile(subFile);
-				}
-			}
-			
-			this.staticResourcePathUtils.bindPath4AudioPlayListResponse(audioPlayListResponse);
-
-			logger.debug("generate audio url: {} for file: {}", audioPlayListResponse.getUrl(), staticResource.getPath());
-		} catch (Exception e) {
-			logger.debug("error to generate audio url for file: {}, exception: {}", staticResource.getPath(), e.getMessage());
-		}
-		
-		return audioPlayListResponse;
+		return new AudioPlayListResponse(staticResourcePathUtils.audioUrl(staticResource));
 	}
 	
 }
