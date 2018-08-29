@@ -23,24 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.machao.base.exception.ResourceNotFoundException;
-import com.machao.base.exception.StaticResourceDeleteErrorException;
-import com.machao.base.model.config.StaticResourceConfig;
+import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.StaticResourceDeleteErrorException;
+import com.machao.base.model.exception.config.StaticResourceConfig;
+import com.machao.base.model.mq.audio.request.AudioConvertRequest;
+import com.machao.base.model.mq.audio.request.AudioDeleteRequest;
+import com.machao.base.model.mq.audio.response.AudioDeleteResponse;
+import com.machao.base.model.mq.image.request.ImageDeleteRequest;
+import com.machao.base.model.mq.image.response.ImageDeleteResponse;
+import com.machao.base.model.mq.video.request.VideoConvertRequest;
+import com.machao.base.model.mq.video.request.VideoDeleteRequest;
+import com.machao.base.model.mq.video.response.VideoDeleteResponse;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
 import com.machao.base.model.persit.User;
-import com.machao.base.mq.static_resource.audio.request.AudioConvertRequest;
-import com.machao.base.mq.static_resource.audio.request.AudioDeleteRequest;
-import com.machao.base.mq.static_resource.audio.response.AudioDeleteResponse;
-import com.machao.base.mq.static_resource.image.request.ImageDeleteRequest;
-import com.machao.base.mq.static_resource.image.response.ImageDeleteResponse;
-import com.machao.base.mq.static_resource.video.request.VideoConvertRequest;
-import com.machao.base.mq.static_resource.video.request.VideoDeleteRequest;
-import com.machao.base.mq.static_resource.video.response.VideoDeleteResponse;
-import com.machao.base.service.AudioService;
-import com.machao.base.service.ImageService;
+import com.machao.base.service.AudioMessageService;
+import com.machao.base.service.ImageMessageService;
 import com.machao.base.service.StaticResourceService;
-import com.machao.base.service.VideoService;
+import com.machao.base.service.VideoMessageService;
 import com.machao.base.utils.SecurityUtils;
 
 import io.swagger.annotations.ApiOperation;
@@ -58,11 +58,11 @@ public class StaticResourceController extends BaseController{
 	private StaticResourceService staticResourceService;
 
 	@Autowired
-	private ImageService imageService;
+	private ImageMessageService imageMessageService;
 	@Autowired
-	private AudioService audioService;
+	private AudioMessageService audioMessageService;
 	@Autowired
-	private VideoService videoService;
+	private VideoMessageService videoMessageService;
 	
 	@ApiOperation("list static resource")
 	@PreAuthorize("authenticated and hasPermission('/static-resource/type/{type}', 'static-resource:list')")
@@ -105,6 +105,15 @@ public class StaticResourceController extends BaseController{
 		String uuid = UUID.randomUUID().toString();
 		String relativePath = user.getId() + File.separator + type.toString() + File.separator + uuid + File.separator + uuid + fileName.substring(fileName.lastIndexOf("."));
 
+		StaticResource staticResource = new StaticResource();
+		staticResource.setRelativePath(relativePath);
+		staticResource.setType(type);
+		staticResource.setContentType(file.getContentType());
+		staticResource.setUser(obtainCurrentUser());
+		staticResource.setOriginName(file.getOriginalFilename());
+		staticResource.setHandled(StaticResource.Type.image.equals(type));
+		StaticResource savedStaticResource = staticResourceService.insert(staticResource);
+		
 		try {
 			logger.info("file {} uploading by {}", file.getOriginalFilename(), SecurityUtils.getPrincipal());
 			File targetFile = new File(staticResourceConfig.getRootPath(), relativePath);
@@ -112,23 +121,16 @@ public class StaticResourceController extends BaseController{
 			
 			// send file to mq to convert to stream
 			if(Type.audio.equals(type)) {
-				this.audioService.convert(new AudioConvertRequest(targetFile));
+				this.audioMessageService.convert(new AudioConvertRequest(savedStaticResource));
 			} else if(Type.video.equals(type)) {
-				this.videoService.convert(new VideoConvertRequest(targetFile));
+				this.videoMessageService.convert(new VideoConvertRequest(savedStaticResource));
 			}
 			
 			logger.info("file {} uploaded to {}", file.getOriginalFilename(), targetFile.getAbsolutePath());
 		} catch (IOException e) {
+			this.staticResourceService.deleteById(savedStaticResource.getId());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		
-		StaticResource staticResource = new StaticResource();
-		staticResource.setRelativePath(relativePath);
-		staticResource.setType(type);
-		staticResource.setContentType(file.getContentType());
-		staticResource.setUser(obtainCurrentUser());
-		staticResource.setOriginName(file.getOriginalFilename());
-		StaticResource savedStaticResource = staticResourceService.insert(staticResource);
 		
 		return ResponseEntity.ok(savedStaticResource);
 	}
@@ -144,13 +146,13 @@ public class StaticResourceController extends BaseController{
 		File file = new File(staticResource.getPath());
 		if(file.exists()) {
 			if(Type.image.equals(staticResource.getType())) {
-				ImageDeleteResponse imageDeleteResponse = imageService.delete(new ImageDeleteRequest(file));
+				ImageDeleteResponse imageDeleteResponse = imageMessageService.delete(new ImageDeleteRequest(staticResource));
 				if(!imageDeleteResponse.isSuccess()) throw new StaticResourceDeleteErrorException();
 			} else if(Type.audio.equals(staticResource.getType())) { 
-				AudioDeleteResponse audioDeleteResponse = audioService.delete(new AudioDeleteRequest(file));
+				AudioDeleteResponse audioDeleteResponse = audioMessageService.delete(new AudioDeleteRequest(staticResource));
 				if(!audioDeleteResponse.isSuccess()) throw new StaticResourceDeleteErrorException();
 			} else if(Type.video.equals(staticResource.getType())) { 
-				VideoDeleteResponse videoDeleteResponse = videoService.delete(new VideoDeleteRequest(file));
+				VideoDeleteResponse videoDeleteResponse = videoMessageService.delete(new VideoDeleteRequest(staticResource));
 				if(!videoDeleteResponse.isSuccess()) throw new StaticResourceDeleteErrorException();
 			}
 		}

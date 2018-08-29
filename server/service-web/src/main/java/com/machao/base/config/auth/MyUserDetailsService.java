@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.machao.base.exception.UserNotFoundException;
+import com.machao.base.model.exception.UserNotFoundException;
 import com.machao.base.service.UserService;
 
 @Component

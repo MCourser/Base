@@ -31,10 +31,10 @@
 			<groupId>org.bytedeco.javacpp-presets</groupId>
 			<artifactId>ffmpeg</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>lib-commons</artifactId>
+			<artifactId>lib-model</artifactId>
 		</dependency>
 	</dependencies>
 </project>

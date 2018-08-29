@@ -24,12 +24,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>lib-dao</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>lib-mq</artifactId>
+			<artifactId>lib-dao</artifactId>
 		</dependency>
 	</dependencies>
 </project>

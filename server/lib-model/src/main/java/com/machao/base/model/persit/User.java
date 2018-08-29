@@ -15,8 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name="t_user")
 public class User implements Serializable{
@@ -29,7 +27,6 @@ public class User implements Serializable{
 	@Column(nullable=false, unique=true)
     private String name;
 
-    @JsonIgnore
 	@Column(nullable=false)
     private String password;
 

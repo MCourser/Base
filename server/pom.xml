@@ -30,7 +30,6 @@
 		<module>lib-model</module>
 		<module>lib-dao</module>
 		<module>lib-service</module>
-		<module>lib-mq</module>
 		<module>lib-static-resource</module>
 		<module>service-static-resource</module>
 		<module>service-web</module>
@@ -67,11 +66,6 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>lib-service</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>lib-mq</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

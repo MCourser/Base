@@ -42,13 +42,14 @@ spring:
     username: guest
     password: guest
 static-resource:
-  burglar-chain:
-    enable: true
-    referers: 
-      - http://localhost:4200/
-      - http://127.0.0.1:4200/
-      - http://localhost:15000/
-      - http://127.0.0.1:15000/
+  root-path: /Users/cma2/Documents/upload
+burglar-chain:
+  enable: true
+  referers: 
+    - http://localhost:4200/
+    - http://127.0.0.1:4200/
+    - http://localhost:15000/
+    - http://127.0.0.1:15000/
 logging:
   level:
     org.springframework.web: info

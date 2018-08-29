@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.machao.base.exception.MysqlException;
-import com.machao.base.exception.RequestParamsErrorException;
-import com.machao.base.exception.ResourceNotFoundException;
-import com.machao.base.exception.StaticResourceDeleteErrorException;
-import com.machao.base.exception.UnauthorizedException;
-import com.machao.base.exception.UserNotFoundException;
-import com.machao.base.model.ExceptionReponse;
+import com.machao.base.model.exception.ExceptionReponse;
+import com.machao.base.model.exception.MysqlException;
+import com.machao.base.model.exception.RequestParamsErrorException;
+import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.StaticResourceDeleteErrorException;
+import com.machao.base.model.exception.UnauthorizedException;
+import com.machao.base.model.exception.UserNotFoundException;
 
 @ControllerAdvice
 public class RestExceptionHandler {

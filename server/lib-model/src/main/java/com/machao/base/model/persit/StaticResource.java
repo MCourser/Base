@@ -14,8 +14,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "t_static_resource")
 public class StaticResource implements Serializable {
@@ -24,34 +22,34 @@ public class StaticResource implements Serializable {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=32)
+	@Column(length = 32)
 	private String id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String originName;
-	
-	@JsonIgnore
-	@Column(nullable=false, unique=true)
+
+	@Column(nullable = false, unique = true)
 	private String relativePath;
-	
-	@JsonIgnore
+
 	@Transient
 	private String path;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Type type = Type.others;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String contentType;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private boolean isPublic = false;
-	
-	@JsonIgnore
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="user_id", referencedColumnName="id")
+
+	@Column(nullable = false)
+	private boolean isHandled = false;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	
+
 	public enum Type {
 		image, audio, video, others
 	}
@@ -63,7 +61,7 @@ public class StaticResource implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getOriginName() {
 		return originName;
 	}
@@ -118,6 +116,14 @@ public class StaticResource implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isHandled() {
+		return isHandled;
+	}
+
+	public void setHandled(boolean isHandled) {
+		this.isHandled = isHandled;
 	}
 
 }

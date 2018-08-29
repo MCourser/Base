@@ -29,10 +29,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -44,10 +48,6 @@
 		</dependency>
 
 		<!-- my module -->
-		<dependency>
-			<groupId>com.machao.base</groupId>
-			<artifactId>lib-mq</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.machao.base</groupId>
 			<artifactId>lib-static-resource</artifactId>

@@ -3,7 +3,7 @@ package com.machao.base.utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.machao.base.exception.UnauthorizedException;
+import com.machao.base.model.exception.UnauthorizedException;
 
 public class SecurityUtils {
 	

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.machao.base.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.ResourceNotFoundException;
 import com.machao.base.model.form.RoleCreateForm;
 import com.machao.base.model.form.RoleUpdateForm;
 import com.machao.base.model.persit.Permission;

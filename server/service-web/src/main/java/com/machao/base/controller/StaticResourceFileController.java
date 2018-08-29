@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.machao.base.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.mq.audio.request.AudioPlayListRequest;
+import com.machao.base.model.mq.audio.response.AudioPlayListResponse;
+import com.machao.base.model.mq.image.request.ImageResizingRequest;
+import com.machao.base.model.mq.image.response.ImageResizingResponse;
+import com.machao.base.model.mq.video.request.VideoPlayListRequest;
+import com.machao.base.model.mq.video.response.VideoPlayListResponse;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
-import com.machao.base.mq.static_resource.audio.request.AudioPlayListRequest;
-import com.machao.base.mq.static_resource.audio.response.AudioPlayListResponse;
-import com.machao.base.mq.static_resource.image.request.ImageResizingRequest;
-import com.machao.base.mq.static_resource.image.response.ImageResizingResponse;
-import com.machao.base.mq.static_resource.video.request.VideoPlayListRequest;
-import com.machao.base.mq.static_resource.video.response.VideoPlayListResponse;
-import com.machao.base.service.AudioService;
-import com.machao.base.service.ImageService;
+import com.machao.base.service.AudioMessageService;
+import com.machao.base.service.ImageMessageService;
 import com.machao.base.service.StaticResourceService;
-import com.machao.base.service.VideoService;
+import com.machao.base.service.VideoMessageService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,11 +41,11 @@ public class StaticResourceFileController extends BaseController{
 	private StaticResourceService staticResourceService;
 	
 	@Autowired
-	private ImageService imageService;
+	private ImageMessageService imageMessageService;
 	@Autowired
-	private AudioService audioService;
+	private AudioMessageService audioMessageService;
 	@Autowired
-	private VideoService videoService;
+	private VideoMessageService videoMessageService;
 	
 	@ApiOperation("file image")
 	@GetMapping("/file/image/{id}")
@@ -60,10 +60,10 @@ public class StaticResourceFileController extends BaseController{
 		try {
 			File srcFile = new File(staticResource.getPath());
 			if(!srcFile.exists()) throw new ResourceNotFoundException();
-			ImageResizingResponse imageResizingResponse = imageService.resizing(new ImageResizingRequest(srcFile, w==null?0:w, h==null?0:h, staticResource.getContentType()));
-			File dstFile = imageResizingResponse.getFile();
+			System.out.println(">>>>>>>>" + srcFile.getAbsolutePath());
+			ImageResizingResponse imageResizingResponse = imageMessageService.resizing(new ImageResizingRequest(staticResource, w == null ? 0 : w, h == null ? 0 : h));
 			
-			logger.debug("redirect to {}, for file: {}", imageResizingResponse.getUrl(), dstFile.getAbsolutePath());
+			logger.debug("redirect to {}, for file: {}", imageResizingResponse.getUrl(), imageResizingResponse.getFile());
 			
 			response.sendRedirect(imageResizingResponse.getUrl());
 		} catch (IOException e) {
@@ -81,7 +81,8 @@ public class StaticResourceFileController extends BaseController{
 		try {
 			File file = new File(staticResource.getPath());
 			if(!file.exists()) throw new ResourceNotFoundException();
-			AudioPlayListResponse audioPlayListResponse = audioService.palylist(new AudioPlayListRequest(file));
+			
+			AudioPlayListResponse audioPlayListResponse = audioMessageService.palylist(new AudioPlayListRequest(staticResource));
 			if(audioPlayListResponse == null)  throw new ResourceNotFoundException();
 			
 			logger.debug("redirect to {}, for file: {}", audioPlayListResponse.getUrl(), file.getAbsolutePath());
@@ -102,7 +103,7 @@ public class StaticResourceFileController extends BaseController{
 		try {
 			File file = new File(staticResource.getPath());
 			if(!file.exists()) throw new ResourceNotFoundException();
-			VideoPlayListResponse videoPlayListResponse = videoService.palylist(new VideoPlayListRequest(file));
+			VideoPlayListResponse videoPlayListResponse = videoMessageService.palylist(new VideoPlayListRequest(staticResource));
 			if(videoPlayListResponse == null)  throw new ResourceNotFoundException();
 			
 			logger.debug("redirect to {}, for file: {}", videoPlayListResponse.getUrl(), file.getAbsolutePath());
@@ -113,4 +114,8 @@ public class StaticResourceFileController extends BaseController{
 		}
 	}
 	
+	
+	public static void main(String[] args) {
+		System.out.println(new File("/"));
+	}
 }

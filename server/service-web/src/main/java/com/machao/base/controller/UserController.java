@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.machao.base.exception.ResourceNotFoundException;
-import com.machao.base.exception.UserNotFoundException;
+import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.UserNotFoundException;
 import com.machao.base.model.form.UserCreateForm;
 import com.machao.base.model.form.UserPasswordUpdateForm;
 import com.machao.base.model.form.UserUpdateForm;

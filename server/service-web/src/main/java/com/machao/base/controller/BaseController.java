@@ -3,9 +3,9 @@ package com.machao.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 
-import com.machao.base.exception.RequestParamsErrorException;
-import com.machao.base.exception.UnauthorizedException;
-import com.machao.base.exception.UserNotFoundException;
+import com.machao.base.model.exception.RequestParamsErrorException;
+import com.machao.base.model.exception.UnauthorizedException;
+import com.machao.base.model.exception.UserNotFoundException;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.User;
 import com.machao.base.service.UserService;
