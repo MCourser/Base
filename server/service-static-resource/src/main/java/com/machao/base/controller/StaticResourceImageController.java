@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.machao.base.model.exception.RequestParamsErrorException;
 import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.ResourceNotReadyException;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
 import com.machao.base.service.ImageService;
@@ -36,6 +37,7 @@ public class StaticResourceImageController extends BaseController{
 		super.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		if(!staticResource.isHandled()) throw new ResourceNotReadyException();
 		if(!Type.image.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		
 		File file = ImageService.obtainFile(new File(staticResource.getPath()), width, height);

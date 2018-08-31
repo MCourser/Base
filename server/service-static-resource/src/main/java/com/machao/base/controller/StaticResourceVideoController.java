@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.machao.base.model.exception.RequestParamsErrorException;
 import com.machao.base.model.exception.ResourceNotFoundException;
+import com.machao.base.model.exception.ResourceNotReadyException;
 import com.machao.base.model.mq.audio.response.AudioPlayListResponse;
 import com.machao.base.model.mq.video.response.VideoPlayListResponse;
 import com.machao.base.model.persit.StaticResource;
@@ -41,6 +42,7 @@ public class StaticResourceVideoController extends BaseController{
 		super.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		if(!staticResource.isHandled()) throw new ResourceNotReadyException();
 		if(!Type.video.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		if(!staticResource.isHandled()) throw new IllegalStateException();
 		
