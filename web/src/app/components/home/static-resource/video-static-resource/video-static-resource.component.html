@@ -13,6 +13,21 @@
   </nb-card-body>
 </nb-card>
 
+<nb-card [hidden]="!video">
+  <nb-card-header>
+    <span>
+       <i class="ion ion-md-videocam text-danger"></i>
+      <span> {{video?video.id:''}}</span>
+    </span>
+    <nb-actions size="small" class="float-right">
+      <nb-action icon="icon ion-md-close text-danger" (click)="stop()"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body #videoElementWrapper>
+    <video id="videoElement" [style.width.px]="videoElementWrapper.width" class="video-js vjs-default-skin" controls></video>
+  </nb-card-body>
+</nb-card>
+
 <nb-card *ngIf="getFileUploader().queue.length">
   <nb-card-header>
     <span>
@@ -53,21 +68,6 @@
   </nb-card-footer>
 </nb-card>
 
-<nb-card [hidden]="!video">
-  <nb-card-header>
-    <span>
-       <i class="ion ion-md-videocam text-danger"></i>
-      <span> {{video?video.id:''}}</span>
-    </span>
-    <nb-actions size="small" class="float-right">
-      <nb-action icon="icon ion-md-close text-danger" (click)="stop()"></nb-action>
-    </nb-actions>
-  </nb-card-header>
-  <nb-card-body #videoElementWrapper>
-    <video id="videoElement" [style.width.px]="videoElementWrapper.width" class="video-js vjs-default-skin" controls></video>
-  </nb-card-body>
-</nb-card>
-
 <nb-card>
   <nb-card-header>
     <span>
@@ -83,6 +83,7 @@
         <th>原始名</th>
         <th>类型</th>
         <th>是否公开</th>
+        <th>是否就绪</th>
         <td></td>
       </tr>
       </thead>
@@ -92,9 +93,10 @@
         <td>{{staticResouce.originName}}</td>
         <td>{{staticResouce.contentType}}</td>
         <td>{{staticResouce.public?'公开':'私有'}}</td>
+        <td>{{staticResouce.handled?'就绪':'未就绪'}}</td>
         <td>
           <nb-actions size="small" class="float-right">
-            <nb-action icon="icon ion-md-play text-danger" (click)="play(staticResouce)"></nb-action>
+            <nb-action icon="icon ion-md-play text-danger" (click)="play(staticResouce)" [hidden]="!staticResouce.handled"></nb-action>
             <nb-action icon="icon ion-md-close text-danger" (click)="delete(staticResouce.id)"></nb-action>
           </nb-actions>
         </td>
@@ -113,5 +115,7 @@
                 previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
   </nb-card-footer>
 </nb-card>
+
+
 
 

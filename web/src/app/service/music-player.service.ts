@@ -110,12 +110,14 @@ export class MusicPlayerService {
       this.hls.loadSource('/api/static-resource/file/audio/' + audio.id);
       this.hls.attachMedia(this.audioElement);
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        console.log('>>>>>>>>>>>>>>>audio loadedmetadata');
         this.play();
       });
     } else if (
       this.audioElement.canPlayType('application/vnd.apple.mpegurl')) {
       this.audioElement.src = '/api/static-resource/file/audio/' + audio.id;
       this.audioElement.addEventListener('loadedmetadata', () => {
+        console.log('>>>>>>>>>>>>>>>audio loadedmetadata');
         this.play();
       });
     } else {

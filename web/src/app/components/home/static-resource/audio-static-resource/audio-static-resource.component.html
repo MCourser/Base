@@ -67,6 +67,7 @@
         <th>原始名</th>
         <th>类型</th>
         <th>是否公开</th>
+        <th>是否就绪</th>
         <td></td>
       </tr>
       </thead>
@@ -76,9 +77,10 @@
         <td>{{staticResouce.originName}}</td>
         <td>{{staticResouce.contentType}}</td>
         <td>{{staticResouce.public?'公开':'私有'}}</td>
+        <td>{{staticResouce.handled?'就绪':'未就绪'}}</td>
         <td>
           <nb-actions size="small" class="float-right" >
-            <nb-action icon="icon ion-md-play text-danger" [hidden]="musicPlayer().getAudio()&&musicPlayer().getAudio().id===staticResouce.id" (click)="musicPlayer().switch(staticResouce)"></nb-action>
+            <nb-action icon="icon ion-md-play text-danger" [hidden]="!staticResouce.handled || musicPlayer().getAudio()&&musicPlayer().getAudio().id===staticResouce.id" (click)="musicPlayer().switch(staticResouce)"></nb-action>
             <nb-action icon="icon ion-md-close text-danger" (click)="delete(staticResouce.id)"></nb-action>
           </nb-actions>
         </td>

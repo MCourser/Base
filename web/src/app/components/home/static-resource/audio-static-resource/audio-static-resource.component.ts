@@ -58,7 +58,6 @@ export class AudioStaticResourceComponent extends BaseStaticResourceComponent im
     this.page = page;
     this.staticResourceService.listAudios(this.page).toPromise().then(json => {
       this.staticResourcePage = json;
-      console.log(json);
     });
   }
 

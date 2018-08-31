@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {BaseStaticResourceComponent} from '../base-static-resource.component';
 import {ToasterService} from 'angular2-toaster';
 import {StaticResourceService} from '../../../../service/static-resource.service';
@@ -14,7 +14,7 @@ import {ToasterType} from '../../../BaseCompoent';
   templateUrl: './video-static-resource.component.html',
   styleUrls: ['../base-static-resource.component.css', './video-static-resource.component.css']
 })
-export class VideoStaticResourceComponent extends BaseStaticResourceComponent implements OnInit, AfterViewInit {
+export class VideoStaticResourceComponent extends BaseStaticResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   public page: Page = new Page(0, 10);
   public staticResourcePage: any = {};
 
@@ -33,6 +33,10 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
 
   ngOnInit() {
     this.list(this.page);
+  }
+
+  ngOnDestroy() {
+    this.player.dispose();
   }
 
   ngAfterViewInit() {
@@ -74,13 +78,14 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
       });
       this.player.play();
     } catch (e) {
+      console.log(e);
       this.showToasty(ToasterType.error, '错误', '视频播放失败，请稍后重试。');
     }
   }
 
   public stop() {
+    this.player.pause();
     this.video = null;
-    this.player.dispose();
   }
 
 }

@@ -18,7 +18,7 @@ export class BaseCompoent implements OnInit {
   public ngOnInit() {
     this.userService.me().toPromise().then(
       json => {
-        this.userService.currentUser = json as User;;
+        this.userService.currentUser = json as User;
       },
       error => {
         this.router.navigate(['/login']);

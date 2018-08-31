@@ -19,7 +19,7 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
   datasource:
-    url: jdbc:mysql://localhost:3306/base
+    url: jdbc:mysql://127.0.0.1:3306/base
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -43,6 +43,11 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: create
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 static-resource:
   root-path: /Users/cma2/Documents/upload
 logging:
