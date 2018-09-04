@@ -22,11 +22,9 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/hls.js/dist/hls.js",
         "../node_modules/video.js/dist/video.js",
-        "../node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js",
-        "../node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js",
-        "../node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.js"
+        "../node_modules/dashjs/dist/dash.all.min.js",
+        "../node_modules/videojs-contrib-dash/dist/videojs-dash.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

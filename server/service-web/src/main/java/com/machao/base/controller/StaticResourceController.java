@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +77,7 @@ public class StaticResourceController extends BaseController{
 	@GetMapping("/{id}")
 	public ResponseEntity<StaticResource> load(@PathVariable String id) {
 		StaticResource staticResource = staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
-		super.checkStaticResourceAuthorize(staticResource);
+		this.checkStaticResourceAuthorize(staticResource);
 		return ResponseEntity.ok(staticResource);
 	}
 	
@@ -140,7 +141,7 @@ public class StaticResourceController extends BaseController{
 	@DeleteMapping("/{id}")
 	public ResponseEntity<StaticResource> delete(@PathVariable String id) {
 		StaticResource staticResource = this.staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
-		super.checkStaticResourceAuthorize(staticResource);
+		this.checkStaticResourceAuthorize(staticResource);
 		
 		logger.info("file {} deleting", staticResource.getPath());
 		File file = new File(staticResource.getPath());
@@ -159,6 +160,21 @@ public class StaticResourceController extends BaseController{
 		logger.info("file {} deleted", staticResource.getPath());
 		
 		this.staticResourceService.deleteById(id);
+		
+		return ResponseEntity.ok(staticResource);
+	}
+	
+	@ApiOperation("delete static resource")
+	@PreAuthorize("authenticated and hasPermission('/static-resource/{id}/public/toggle', 'static-resource:public-toggle')")
+	@PutMapping("/{id}/public/toggle")
+	public ResponseEntity<StaticResource> togglePublicAndPrivate(@PathVariable String id) {
+		StaticResource staticResource = this.staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
+		this.checkStaticResourceAuthorize(staticResource);
+		
+		staticResource.setPublic(!staticResource.isPublic());
+		this.staticResourceService.update(staticResource);
+		
+		logger.info("toggle public for type: {}, path: {}, public: {}", staticResource.getType(), staticResource.getPath(), staticResource.isPublic());
 		
 		return ResponseEntity.ok(staticResource);
 	}

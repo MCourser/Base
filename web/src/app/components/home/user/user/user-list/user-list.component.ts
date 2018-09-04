@@ -33,7 +33,6 @@ export class UserListComponent extends BaseCompoent implements OnInit {
   public list() {
     this.userService.list(this.page).toPromise().then(json => {
       this.userPage = json;
-      console.log(this.userPage);
     });
   }
 

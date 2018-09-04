@@ -5,7 +5,7 @@ import java.io.File;
 import com.machao.base.handler.Handler;
 
 public interface ImageHandler extends Handler{
-	File resize(File file, int width, int height, Callback callback);
+	File resize(File file, int width, int height, Callback callback) throws Exception;
 	
 	interface Callback {
 		String getDestinationPath(int width, int height);

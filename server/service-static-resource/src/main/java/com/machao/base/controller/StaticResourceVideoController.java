@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.machao.base.model.exception.RequestParamsErrorException;
 import com.machao.base.model.exception.ResourceNotFoundException;
 import com.machao.base.model.exception.ResourceNotReadyException;
-import com.machao.base.model.mq.audio.response.AudioPlayListResponse;
 import com.machao.base.model.mq.video.response.VideoPlayListResponse;
 import com.machao.base.model.persit.StaticResource;
 import com.machao.base.model.persit.StaticResource.Type;
@@ -42,37 +41,38 @@ public class StaticResourceVideoController extends BaseController{
 		super.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		
 		if(!staticResource.isHandled()) throw new ResourceNotReadyException();
 		if(!Type.video.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		if(!staticResource.isHandled()) throw new IllegalStateException();
 		
 		try {
-			String m3u8Content = staticResourcePathUtils.obtainVideoM3u8FileContent(staticResource);
+			String m3u8Content = staticResourcePathUtils.obtainIndexFileContent(staticResource);
 			if(StringUtils.isEmpty(m3u8Content)) throw new IllegalStateException();
 			
-			response.setContentType(VideoPlayListResponse.M3U8_CONTENT_TYPE);
+			response.setContentType(VideoPlayListResponse.MPD_CONTENT_TYPE);
 			response.getOutputStream().write(m3u8Content.getBytes());
 		} catch (IOException e) {
 			logger.error("file: {} send error", staticResource.getPath());
 		}
 	}
 	
-	@GetMapping("/video/{uuid}/{quality}/{palylist}")
-	public void videoTs(@PathVariable String uuid, @PathVariable int quality, @PathVariable String palylist, HttpServletRequest request,  HttpServletResponse response) {
+	@GetMapping("/video/{uuid}/{palylist}")
+	public void videoTs(@PathVariable String uuid, @PathVariable String palylist, HttpServletRequest request,  HttpServletResponse response) {
 		super.checkBurglarChain(request);
 		
-		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		
 		if(!Type.video.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		if(!staticResource.isHandled()) throw new IllegalStateException();
 		
 		File file = new File(staticResource.getPath());
 		if(!file.exists()) throw new IllegalStateException();
-		File tsFile = new File(file.getParent(), String.format("%d" + File.separator + "%s", quality, palylist));
+		File tsFile = new File(file.getParent(), palylist);
 		if(!tsFile.exists()) throw new IllegalStateException();
 		
 		try {
-			response.setContentType(AudioPlayListResponse.TS_CONTENT_TYPE);
+			response.setContentType(VideoPlayListResponse.M4S_CONTENT_TYPE);
 			response.getOutputStream().write(FileUtils.readFileToByteArray(tsFile));
 		} catch (IOException e) {
 			logger.error("file: {} send error for ts file: {}", file.getAbsolutePath(), palylist);

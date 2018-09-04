@@ -44,4 +44,9 @@ export class StaticResourceService {
     return this.http.delete('/api/static-resource/' + id);
   }
 
+  public togglePublic(id: string) {
+    return this.http.put('/api/static-resource/' + id + '/public/toggle', {});
+  }
+
+
 }

@@ -6,11 +6,8 @@
 @import "../node_modules/angular2-toaster/toaster.css";
 @import "../node_modules/ionicons/dist/css/ionicons.css";
 @import "../node_modules/video.js/dist/video-js.css";
-@import "../node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css";
+@import "./assets/videojs/custom-skin.css";
 
-.no-padding {
-  padding: 0 !important;
-}
 .no-margin {
   margin: 0 !important;
 }

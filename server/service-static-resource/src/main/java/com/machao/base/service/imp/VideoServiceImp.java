@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.machao.base.ffmpeg.FFmpegHandler;
 import com.machao.base.handler.video.imp.FFmpegVideoStreamHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.video.request.VideoConvertRequest;
@@ -41,10 +42,30 @@ public class VideoServiceImp implements VideoService{
 		StaticResource staticResource = videoConvertRequest.getStaticResource();
 		try {
 			File file = new File(staticResource.getPath());
-			this.fFmpegVideoStreamHandler.handle(file);
-			
-			staticResource.setHandled(true);
-			this.staticResourceService.update(staticResource);
+			this.fFmpegVideoStreamHandler.handle(file, new FFmpegHandler.HandlerCallback() {
+				@Override
+				public void onStart() {
+					logger.info("FFmpegVideoStreamHandler ==> start: {}", file);
+				}
+				
+				@Override
+				public void onGenerateOutputFile(File destFile) {
+					logger.info("FFmpegVideoStreamHandler ==> new file: {}", destFile);
+				}
+				
+				@Override
+				public void onFinished() {
+					logger.info("FFmpegVideoStreamHandler ==> finished: {}", file);
+				}
+	
+				@Override
+				public void onResult(boolean isSuccess) {
+					logger.info("FFmpegVideoStreamHandler ==> result: {}, {}", file, isSuccess);
+					
+					staticResource.setHandled(isSuccess);
+					VideoServiceImp.this.staticResourceService.update(staticResource);
+				}
+			});
 		} catch (Exception e) {
 			logger.error("error to convert file {} to m3u8, exception: {}", staticResource.getPath(), e.getMessage());
 			

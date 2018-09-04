@@ -41,12 +41,6 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
 
   ngAfterViewInit() {
     this.player = videojs('videoElement');
-    this.player.hlsQualitySelector();
-    // this.player.qualityLevels.on('addqualitylevel', function(event) {
-    //   console.log(event);
-    //   const qualityLevel = event.qualityLevel;
-    //   qualityLevel.enabled = true;
-    // });
   }
 
   public getAcceptContentType() {
@@ -80,17 +74,11 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
       this.video = video;
       this.player.src({
         src: '/api/static-resource/file/video/' + video.id,
-        type: 'application/x-mpegURL'
+        type: 'application/dash+xml'
       });
-      this.player.play();
 
-      console.log(this.player.qualityLevels);
-      const levels = this.player.qualityLevels();
-      levels.forEach(level => {
-        console.log(level);
-      });
+      this.player.play();
     } catch (e) {
-      console.log(e);
       this.showToasty(ToasterType.error, '错误', '视频播放失败，请稍后重试。');
     }
   }
@@ -98,6 +86,12 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
   public stop() {
     this.player.pause();
     this.video = null;
+  }
+
+  public togglePublic(id: string) {
+    this.staticResourceService.togglePublic(id).toPromise().then(json => {
+      this.list(this.page);
+    });
   }
 
 }

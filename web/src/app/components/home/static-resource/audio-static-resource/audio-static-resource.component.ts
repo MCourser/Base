@@ -67,4 +67,10 @@ export class AudioStaticResourceComponent extends BaseStaticResourceComponent im
     });
   }
 
+  public togglePublic(id: string) {
+    this.staticResourceService.togglePublic(id).toPromise().then(json => {
+      this.list(this.page);
+    });
+  }
+
 }

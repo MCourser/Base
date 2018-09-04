@@ -33,7 +33,6 @@ public class ImageServiceImp implements ImageService {
 	@RabbitListener(queues = QueueName.ImageResizing)
 	@Override
 	public ImageResizingResponse handle(ImageResizingRequest imageResizingRequest) {
-		ImageResizingResponse imageResizingResponse = new ImageResizingResponse();
 		StaticResource staticResource = imageResizingRequest.getStaticResource();
 		
 		try {
@@ -48,10 +47,9 @@ public class ImageServiceImp implements ImageService {
 			
 			return new ImageResizingResponse(staticResourcePathUtils.imageUrl(staticResource, imageResizingRequest.getWidth(), imageResizingRequest.getHeight()));
 		} catch (Exception e) {
-			logger.error("error to resize image resizing and generate url for file: {}, exception: {}", staticResource.getPath(), e.getMessage());
+			logger.error("error to resize image resizing and generate url for file: {}, using origin file, exception: {}", staticResource.getPath(), e.getMessage());
+			return new ImageResizingResponse(staticResourcePathUtils.imageUrl(staticResource));
 		}
-		
-		return imageResizingResponse;
 	}
 
 	@RabbitListener(queues = QueueName.ImageDelete)

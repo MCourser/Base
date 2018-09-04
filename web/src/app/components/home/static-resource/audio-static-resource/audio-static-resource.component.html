@@ -76,8 +76,12 @@
         <td>{{staticResouce.id}}</td>
         <td>{{staticResouce.originName}}</td>
         <td>{{staticResouce.contentType}}</td>
-        <td>{{staticResouce.public?'公开':'私有'}}</td>
-        <td>{{staticResouce.handled?'就绪':'未就绪'}}</td>
+        <td><ui-switch [(ngModel)]="staticResouce.public" (change)="togglePublic(staticResouce.id)"></ui-switch></td>
+        <td>
+          <nb-actions>
+            <nb-action icon="icon ion-md-checkmark text-success" *ngIf="staticResouce.handled"></nb-action>
+            <nb-action icon="icon ion-md-close text-danger" *ngIf="!staticResouce.handled"></nb-action>
+          </nb-actions>
         <td>
           <nb-actions size="small" class="float-right" >
             <nb-action icon="icon ion-md-play text-danger" [hidden]="!staticResouce.handled || musicPlayer().getAudio()&&musicPlayer().getAudio().id===staticResouce.id" (click)="musicPlayer().switch(staticResouce)"></nb-action>

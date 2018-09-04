@@ -33,14 +33,15 @@ public class StaticResourceImageController extends BaseController{
 	private StaticResourceService staticResourceService;
 
 	@GetMapping("/image/{uuid}")
-	public void image(@PathVariable String uuid, @RequestParam(name="w") int width, @RequestParam(name="h") int height, HttpServletRequest request, HttpServletResponse response) {
+	public void image(@PathVariable String uuid, @RequestParam(name="w", defaultValue="0") int width, @RequestParam(name="h", defaultValue="0") int height, HttpServletRequest request, HttpServletResponse response) {
 		super.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		
 		if(!staticResource.isHandled()) throw new ResourceNotReadyException();
 		if(!Type.image.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		
-		File file = ImageService.obtainFile(new File(staticResource.getPath()), width, height);
+		File file = (width == 0 || height == 0) ? new File(staticResource.getPath()) : ImageService.obtainFile(new File(staticResource.getPath()), width, height);
 		if(!file.exists()) throw new ResourceNotFoundException();
 		
 		try {

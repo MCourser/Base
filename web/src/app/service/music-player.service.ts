@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {AfterViewInit, Injectable} from '@angular/core';
 
 @Injectable()
 export class MusicPlayerService {
   private musicMode = false;
 
+  private player: any;
   private audioElement: HTMLAudioElement;
-  private hls: any;
   private playing = false;
   private _currentTime = 0;
   private _duration = 0;
@@ -20,8 +20,11 @@ export class MusicPlayerService {
     this.audioElement.autoplay = false;
     this.audioElement.onplay = this.onPlay.bind(this);
     this.audioElement.onended = this.onEnded.bind(this);
-    this.audioElement.onabort = this.onAbort.bind(this);
+    // this.audioElement.onabort = this.onAbort.bind(this);
     this.audioElement.onpause = this.onPaste.bind(this);
+
+    this.player = dashjs.MediaPlayer().create();
+    this.player.initialize(this.audioElement);
 
     this.timer = setInterval(() => {
       this._currentTime = this.audioElement.currentTime ? this.audioElement.currentTime : 0;
@@ -92,9 +95,6 @@ export class MusicPlayerService {
         this.pause();
       } else {
         this.play();
-        if (!this.hls) {
-          this.switch(this.audio);
-        }
       }
     }
   }
@@ -103,26 +103,10 @@ export class MusicPlayerService {
     if (this.audio && this.audio.id === audio.id) {
       return;
     }
-    this.audio = audio;
 
-    if (Hls.isSupported()) {
-      this.hls = new Hls();
-      this.hls.loadSource('/api/static-resource/file/audio/' + audio.id);
-      this.hls.attachMedia(this.audioElement);
-      this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        console.log('>>>>>>>>>>>>>>>audio loadedmetadata');
-        this.play();
-      });
-    } else if (
-      this.audioElement.canPlayType('application/vnd.apple.mpegurl')) {
-      this.audioElement.src = '/api/static-resource/file/audio/' + audio.id;
-      this.audioElement.addEventListener('loadedmetadata', () => {
-        console.log('>>>>>>>>>>>>>>>audio loadedmetadata');
-        this.play();
-      });
-    } else {
-      console.log('Hls is Not Supported');
-    }
+    this.audio = audio;
+    this.player.attachSource('/api/static-resource/file/audio/' + audio.id);
+    this.play();
   }
 
   public onPlay() {
@@ -131,15 +115,12 @@ export class MusicPlayerService {
 
   public onEnded() {
     this.seek(0);
-    console.log('>>>>>>>>>>>>>onEnded');
   }
 
-  public onAbort() {
-    console.log('>>>>>>>>>>>>>onAbort');
-  }
+  // public onAbort() {
+  // }
 
   public onPaste() {
     this.playing = false;
   }
-
 }

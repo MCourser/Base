@@ -20,7 +20,6 @@ public abstract class FFmpegHandler {
 	private FFmepgHandlerConfig ffmepgHandlerConfig = new FFmepgHandlerConfig();
 	
 	public enum Type {
-		unknow("unknow"),
 		avi("avi"), 
 		mpg("mpg"),  
 		wmv("wmv"),  
@@ -34,6 +33,8 @@ public abstract class FFmpegHandler {
 		rmvb("rmvb"),  
 		m3u8("m3u8"),  
 		ts("ts"),
+		mpd("mpd"),
+		m4s("m4s"),  
 		mp3("mp3");
 		
 		private String name;
@@ -48,16 +49,6 @@ public abstract class FFmpegHandler {
 		
 		public String getSuffix() {
 			return "." + name;
-		}
-		
-		public static Type valueOf(File file) {
-			String fileName = file.getName();
-			for(Type type : Type.values()) {
-				if(fileName.endsWith(type.getName())) {
-					return type;
-				}
-			}
-			return Type.unknow;
 		}
 	}
 	
@@ -106,10 +97,11 @@ public abstract class FFmpegHandler {
 		
 		List<String> command = obtainCommands(ffmepgHandlerConfig, ffmpegMediaInfo, srcFile, srcFile.getParentFile(), callback);
 		logger.debug("ffmpeg command: {}", command);
-		Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
-		new ErrorPrintStream(videoProcess.getErrorStream(), callback).start();
-		new InputPrintStream(videoProcess.getInputStream(), callback).start();
-		videoProcess.waitFor();
+		Process videoProcess = new ProcessBuilder(command).start();
+		new ErrorPrintStream(videoProcess.getErrorStream()).start();
+		new InputPrintStream(videoProcess.getInputStream()).start();
+		int exitCode = videoProcess.waitFor();
+		if(callback!=null) callback.onResult(exitCode == 0);
 		
 		if(callback!=null) callback.onFinished();
 	}
@@ -131,17 +123,10 @@ public abstract class FFmpegHandler {
 	
 	private class PrintStream extends Thread {
 		private InputStream inputStream = null;
-		private HandlerCallback callback = null;
-		
 		private StringBuffer lineBuffer = new StringBuffer();
 		
 		public PrintStream(InputStream inputStream) {
 			this.inputStream = inputStream;
-		}
-
-		public PrintStream(InputStream inputStream, HandlerCallback callback) {
-			this.inputStream = inputStream;
-			this.callback = callback;
 		}
 
 		public void run() {
@@ -157,9 +142,6 @@ public abstract class FFmpegHandler {
 						} else {
 							if(this instanceof ErrorPrintStream) {
 								logger.error("ffmpeg: {}", lineBuffer.toString());
-								if(callback != null) {
-									this.callback.onError(lineBuffer.toString());
-								}
 							} else if(this instanceof InputPrintStream) {
 								logger.debug("ffmpeg: {}", lineBuffer.toString());
 							}
@@ -178,23 +160,17 @@ public abstract class FFmpegHandler {
 		public ErrorPrintStream(InputStream inputStream) {
 			super(inputStream);
 		}
-		public ErrorPrintStream(InputStream inputStream, HandlerCallback callback) {
-			super(inputStream, callback);
-		}
 	}
 	private class InputPrintStream extends PrintStream{
 		public InputPrintStream(InputStream inputStream) {
 			super(inputStream);
 		}
-		public InputPrintStream(InputStream inputStream, HandlerCallback callback) {
-			super(inputStream, callback);
-		}
 	}
 
 	public interface HandlerCallback {
 		public void onStart();
-		public void onError(String error);
 		public void onGenerateOutputFile(File destFile);
+		public void onResult(boolean isSuccess);
 		public void onFinished();
 	}
 	

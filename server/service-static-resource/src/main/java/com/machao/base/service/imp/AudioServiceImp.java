@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.machao.base.ffmpeg.FFmpegHandler;
 import com.machao.base.handler.audio.imp.FFmpegAudioStreamHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.audio.request.AudioConvertRequest;
@@ -42,10 +43,30 @@ public class AudioServiceImp implements AudioService{
 		
 		try {
 			File file = new File(staticResource.getPath());
-			this.ffmpegAudioStreamHandler.handle(file);
-			
-			staticResource.setHandled(true);
-			this.staticResourceService.update(staticResource);
+			this.ffmpegAudioStreamHandler.handle(file, new FFmpegHandler.HandlerCallback() {
+				@Override
+				public void onStart() {
+					logger.info("FFmpegAudioStreamHandler ==> start: {}", file);
+				}
+				
+				@Override
+				public void onGenerateOutputFile(File destFile) {
+					logger.info("FFmpegAudioStreamHandler ==> new file: {}", destFile);
+				}
+				
+				@Override
+				public void onFinished() {
+					logger.info("FFmpegAudioStreamHandler ==> finished: {}", file);
+				}
+	
+				@Override
+				public void onResult(boolean isSuccess) {
+					logger.info("FFmpegAudioStreamHandler ==> result: {}, {}", file, isSuccess);
+					
+					staticResource.setHandled(isSuccess);
+					AudioServiceImp.this.staticResourceService.update(staticResource);
+				}
+			});
 		} catch (Exception e) {
 			logger.error("error to convert file {} to m3u8, exception: {}", staticResource.getPath(), e.getMessage());
 			

@@ -52,6 +52,31 @@
   </nb-card-footer>
 </nb-card>
 
+<nb-card [hidden]="!isPreviewMode()">
+  <nb-card-header>
+    <span>
+       <i class="ion ion-md-cloud-upload text-danger"></i>
+      <span> 图片预览</span>
+    </span>
+    <nb-actions size="small" class="float-right">
+      <nb-action icon="icon ion-md-close text-danger" (click)="removePreview()"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body class="no-padding">
+    <ngx-image-viewer [src]="previewImages" [config]="{
+      btnIcons: {
+        zoomIn: 'ion ion-md-add',
+        zoomOut: 'ion ion-md-remove',
+        rotateClockwise: 'ion ion-md-return-left',
+        rotateCounterClockwise: 'ion ion-md-return-right',
+        next: 'ion ion-md-arrow-round-forward',
+        prev: 'ion ion-md-arrow-round-back',
+        fullscreen: 'ion ion-md-expand'
+      }
+    }"></ngx-image-viewer>
+  </nb-card-body>
+</nb-card>
+
 <nb-card>
   <nb-card-header>
     <span>
@@ -62,16 +87,16 @@
   <nb-card-body>
     <div class="row">
       <nb-card class="col-md-3" *ngFor="let staticResouce of staticResourcePage.content">
-        <!--<nb-sidebar-header>-->
-          <!--<nb-actions size="small" class="float-right">-->
-            <!--<nb-action icon="icon ion-md-close-circle text-danger" (click)="delete(staticResouce.id)"></nb-action>-->
-          <!--</nb-actions>-->
-        <!--</nb-sidebar-header>-->
         <nb-card-body>
-          <img [src]="'/api/static-resource/file/image/' + staticResouce.id + '?w=200'">
+          <img [src]="'/api/static-resource/file/image/' + staticResouce.id + '?w=200'" class="img match-parent-width" (click)="setPreview(staticResouce)"/>
         </nb-card-body>
         <nb-card-footer>
-          <span>{{staticResouce.originName}}</span>
+          <nb-actions size="small" fullWidth>
+            <nb-action icon="icon ion-md-eye text-info" (click)="setPreview(staticResouce)"></nb-action>
+            <nb-action icon="icon ion-md-lock text-success" *ngIf="staticResouce.public" (click)="togglePublic(staticResouce.id)"></nb-action>
+            <nb-action icon="icon ion-md-unlock text-warning" *ngIf="!staticResouce.public" (click)="togglePublic(staticResouce.id)"></nb-action>
+            <nb-action icon="icon ion-md-trash text-danger" (click)="delete(staticResouce.id)"></nb-action>
+          </nb-actions>
         </nb-card-footer>
       </nb-card>
     </div>

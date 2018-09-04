@@ -13,6 +13,7 @@ insert into t_permission(id, value, resource, description) values(300, "static-r
 insert into t_permission(id, value, resource, description) values(301, "static-resource:delete", "/static-resource/{id}", "delete static resource");
 insert into t_permission(id, value, resource, description) values(302, "static-resource:list", "/static-resource/type/{type}", "list static resources");
 insert into t_permission(id, value, resource, description) values(303, "static-resource:load", "/static-resource/{id}", "load static resource");
+insert into t_permission(id, value, resource, description) values(304, "static-resource:public-toggle", "/static-resource/{id}/public/toggle", "toggle public or private for static resource");
 
 insert into t_role(id, name, description) values(1, "admin", "system admin");
 
@@ -31,6 +32,7 @@ insert into t_role_permission(role_id, permission_id) values(1, 300);
 insert into t_role_permission(role_id, permission_id) values(1, 301);
 insert into t_role_permission(role_id, permission_id) values(1, 302);
 insert into t_role_permission(role_id, permission_id) values(1, 303);
+insert into t_role_permission(role_id, permission_id) values(1, 304);
 
 insert into t_user(id, name, password) values(1, 'admin', '$2a$10$jYsN/CucsC/fsbEewJocJ.agSWigHEnLa69ZmXxVqRbJ6Mihmr3Wy');
 insert into t_user(id, name, password) values(2, 'test', '$2a$10$jYsN/CucsC/fsbEewJocJ.agSWigHEnLa69ZmXxVqRbJ6Mihmr3Wy');

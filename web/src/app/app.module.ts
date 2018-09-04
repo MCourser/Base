@@ -45,7 +45,9 @@ import {StaticResourceService} from './service/static-resource.service';
 import {PaginationModule, ProgressbarModule, TooltipModule} from 'ngx-bootstrap';
 import {AudioStaticResourceComponent} from './components/home/static-resource/audio-static-resource/audio-static-resource.component';
 import {MusicPlayerService} from './service/music-player.service';
-import { VideoStaticResourceComponent } from './components/home/static-resource/video-static-resource/video-static-resource.component';
+import {VideoStaticResourceComponent} from './components/home/static-resource/video-static-resource/video-static-resource.component';
+import {ImageViewerModule} from 'ngx-image-viewer';
+import {UiSwitchModule} from 'ngx-toggle-switch';
 
 
 const routes: Routes = [
@@ -173,6 +175,8 @@ const routes: Routes = [
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
     ProgressbarModule.forRoot(),
+    ImageViewerModule.forRoot(),
+    UiSwitchModule
   ],
   providers: [
     NbSidebarService,

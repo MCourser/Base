@@ -38,17 +38,18 @@ public class StaticResourceAudioController extends BaseController{
 
 	@GetMapping("/audio/{uuid}/")
 	public void audioM3u8(@PathVariable String uuid, HttpServletRequest request, HttpServletResponse response) {
-		super.checkBurglarChain(request);
+		this.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		
 		if(!Type.audio.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		if(!staticResource.isHandled()) throw new IllegalStateException();
 		
 		try {
-			String m3u8Content = staticResourcePathUtils.obtainAudioM3u8FileContent(staticResource);
+			String m3u8Content = staticResourcePathUtils.obtainIndexFileContent(staticResource);
 			if(StringUtils.isEmpty(m3u8Content)) throw new IllegalStateException();
 			
-			response.setContentType(AudioPlayListResponse.M3U8_CONTENT_TYPE);
+			response.setContentType(AudioPlayListResponse.MPD_CONTENT_TYPE);
 			response.getOutputStream().write(m3u8Content.getBytes());
 		} catch (IOException e) {
 			logger.error("file: {} send error", staticResource.getPath());
@@ -60,6 +61,7 @@ public class StaticResourceAudioController extends BaseController{
 		super.checkBurglarChain(request);
 		
 		StaticResource staticResource = staticResourceService.findById(uuid).orElseThrow(ResourceNotFoundException::new);
+		
 		if(!staticResource.isHandled()) throw new ResourceNotReadyException();
 		if(!Type.audio.equals(staticResource.getType())) throw new RequestParamsErrorException();
 		if(!staticResource.isHandled()) throw new IllegalStateException();
@@ -70,7 +72,7 @@ public class StaticResourceAudioController extends BaseController{
 		if(!tsFile.exists()) throw new IllegalStateException();
 		
 		try {
-			response.setContentType(AudioPlayListResponse.TS_CONTENT_TYPE);
+			response.setContentType(AudioPlayListResponse.M4S_CONTENT_TYPE);
 			response.getOutputStream().write(FileUtils.readFileToByteArray(tsFile));
 		} catch (IOException e) {
 			logger.error("file: {} send error for ts file: {}", file.getAbsolutePath(), palylist);

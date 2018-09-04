@@ -50,17 +50,17 @@ public class StaticResourceFileController extends BaseController{
 	@ApiOperation("file image")
 	@GetMapping("/file/image/{id}")
 	public void image(@PathVariable String id, 
-			@RequestParam(name="w", required=false) Integer w, 
-			@RequestParam(name="h", required=false) Integer h, 
+			@RequestParam(name="w", defaultValue="0") int w, 
+			@RequestParam(name="h", defaultValue="0") int h, 
 			HttpServletResponse response) {
 		StaticResource staticResource = staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
 		if(!Type.image.equals(staticResource.getType())) return;
-		super.checkStaticResourceAuthorize(staticResource);
+		this.checkStaticResourceAuthorize(staticResource);
 
 		try {
 			File srcFile = new File(staticResource.getPath());
 			if(!srcFile.exists()) throw new ResourceNotFoundException();
-			ImageResizingResponse imageResizingResponse = imageMessageService.resizing(new ImageResizingRequest(staticResource, w == null ? 0 : w, h == null ? 0 : h));
+			ImageResizingResponse imageResizingResponse = imageMessageService.resizing(new ImageResizingRequest(staticResource, w <= 0 ? 0 : w, h <= 0 ? 0 : h));
 			
 			logger.debug("redirect to {}, for file: {}", imageResizingResponse.getUrl(), srcFile);
 			
@@ -75,7 +75,7 @@ public class StaticResourceFileController extends BaseController{
 	public void audio(@PathVariable String id, HttpServletResponse response) {
 		StaticResource staticResource = staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
 		if(!Type.audio.equals(staticResource.getType())) return;
-		super.checkStaticResourceAuthorize(staticResource);
+		this.checkStaticResourceAuthorize(staticResource);
 
 		try {
 			File file = new File(staticResource.getPath());
@@ -97,7 +97,7 @@ public class StaticResourceFileController extends BaseController{
 	public void video(@PathVariable String id, HttpServletResponse response) {
 		StaticResource staticResource = staticResourceService.findById(id).orElseThrow(ResourceNotFoundException::new);
 		if(!Type.video.equals(staticResource.getType())) return;
-		super.checkStaticResourceAuthorize(staticResource);
+		this.checkStaticResourceAuthorize(staticResource);
 
 		try {
 			File file = new File(staticResource.getPath());

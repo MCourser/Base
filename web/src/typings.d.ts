@@ -4,5 +4,5 @@ interface NodeModule {
   id: string;
 }
 
-declare var Hls: any;
+declare var dashjs: any;
 declare var videojs: any;

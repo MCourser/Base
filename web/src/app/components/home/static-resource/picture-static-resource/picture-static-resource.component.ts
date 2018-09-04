@@ -16,6 +16,8 @@ export class PictureStaticResourceComponent extends BaseStaticResourceComponent 
   public page: Page = new Page(1, 12);
   public staticResourcePage: any = {};
 
+  public previewImages: any = [];
+
   constructor(
     public router: Router,
     public toastyService: ToasterService,
@@ -56,4 +58,20 @@ export class PictureStaticResourceComponent extends BaseStaticResourceComponent 
     });
   }
 
+  public setPreview(image) {
+    this.removePreview();
+    this.previewImages.push('/api/static-resource/file/image/' + image.id);
+  }
+  public removePreview() {
+    this.previewImages = [];
+  }
+  public isPreviewMode() {
+    return this.previewImages.length > 0;
+  }
+
+  public togglePublic(id: string) {
+    this.staticResourceService.togglePublic(id).toPromise().then(json => {
+      this.list(this.page);
+    });
+  }
 }

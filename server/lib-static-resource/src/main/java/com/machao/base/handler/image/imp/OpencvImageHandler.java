@@ -18,36 +18,33 @@ public class OpencvImageHandler implements ImageHandler{
 	}
 	
 	@Override
-	public File resize(File file, int width, int height, Callback callback) {
-		try {
-			Mat src = Imgcodecs.imread(file.getAbsolutePath());
-			Mat dst = new Mat();
-			
-			int newWidth = src.width();
-			int newHeight = src.height();
-			if(width != 0 && height == 0) {
-				newWidth = width > src.width() ? src.width() : width;
-				newHeight = width > src.width() ? src.height() : (int)(((double)width)/src.width()*src.height());
-			} else if(width == 0 && height != 0) {
-				newWidth = height > src.height() ? src.width() : (int)(((double)height)/src.height()*src.width());
-				newHeight = height > src.height() ? src.height() : height;
-			} else if(width != 0 && height != 0) {
-				newWidth = width > src.width() ? src.width() : width;
-				newHeight = height > src.height() ? src.height() : height;
-			} 
-			
-			Size size = new Size(newWidth, newHeight);
-			Imgproc.resize(src, dst, size , 0, 0, Imgproc.INTER_AREA);
-			
-			File newFile = new File(callback.getDestinationPath(newWidth, newHeight));
-			if(!newFile.exists()) {
-				Imgcodecs.imwrite(newFile.getAbsolutePath(), dst);
-			}
-			
-			return newFile;
-		} catch (Exception e) {
-			return file;
+	public File resize(File file, int width, int height, Callback callback) throws Exception {
+		Mat src = Imgcodecs.imread(file.getAbsolutePath());
+		Mat dst = new Mat();
+		
+		int newWidth = src.width();
+		int newHeight = src.height();
+		
+		if(width != 0 && height == 0) {
+			newWidth = width > src.width() ? src.width() : width;
+			newHeight = width > src.width() ? src.height() : (int)(((double)width)/src.width()*src.height());
+		} else if(width == 0 && height != 0) {
+			newWidth = height > src.height() ? src.width() : (int)(((double)height)/src.height()*src.width());
+			newHeight = height > src.height() ? src.height() : height;
+		} else if(width != 0 && height != 0) {
+			newWidth = width > src.width() ? src.width() : width;
+			newHeight = height > src.height() ? src.height() : height;
+		} 
+		
+		Size size = new Size(newWidth, newHeight);
+		Imgproc.resize(src, dst, size , 0, 0, Imgproc.INTER_AREA);
+		
+		File newFile = new File(callback.getDestinationPath(newWidth, newHeight));
+		if(!newFile.exists()) {
+			Imgcodecs.imwrite(newFile.getAbsolutePath(), dst);
 		}
+		
+		return newFile;
 	}
 	
 }

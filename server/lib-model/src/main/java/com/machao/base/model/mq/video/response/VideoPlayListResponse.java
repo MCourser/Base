@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class VideoPlayListResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String M3U8_CONTENT_TYPE = "application/vnd.apple.mpegurl";
-	public static final String TS_CONTENT_TYPE = "video/mp2t";
+	public static final String MPD_CONTENT_TYPE = "text/xml";
+	public static final String M4S_CONTENT_TYPE = "video/mp4";
 
 	private String url;
 	
