@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.machao.base.ffmpeg.FFmpegHandler.Type;
 import com.machao.base.model.persit.StaticResource;
@@ -43,7 +44,7 @@ public class StaticResourcePathUtils {
 		File file = new File(staticResource.getPath());
 		File m3u8File = new File(file.getParent(), com.machao.base.commons.FileUtils.obtainFileName(file) + Type.m3u8.getSuffix());
 		List<String> lines = FileUtils.readLines(m3u8File);
-		lines.forEach(line->{
+		lines.stream().filter(line->!StringUtils.isEmpty(line)).forEach(line->{
 			if(!line.startsWith("#")) {
 				String tsUrl = obtainContextPath() + "/audio/" + staticResource.getId() + "/" + line;
 				newLines.append(tsUrl).append('\n');
@@ -61,7 +62,7 @@ public class StaticResourcePathUtils {
 		File file = new File(staticResource.getPath());
 		File m3u8File = new File(file.getParent(), com.machao.base.commons.FileUtils.obtainFileName(file) + Type.m3u8.getSuffix());
 		List<String> lines = FileUtils.readLines(m3u8File);
-		lines.forEach(line->{
+		lines.stream().filter(line->!StringUtils.isEmpty(line)).forEach(line->{
 			if(!line.startsWith("#")) {
 				String tsUrl = obtainContextPath() + "/video/" + staticResource.getId() + "/" + line;
 				newLines.append(tsUrl).append('\n');

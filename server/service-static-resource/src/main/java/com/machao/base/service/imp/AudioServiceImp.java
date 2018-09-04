@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.machao.base.handler.audio.imp.FFmpegAutioHandler;
+import com.machao.base.handler.audio.imp.FFmpegAudioStreamHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.audio.request.AudioConvertRequest;
 import com.machao.base.model.mq.audio.request.AudioDeleteRequest;
@@ -33,7 +33,7 @@ public class AudioServiceImp implements AudioService{
 	private StaticResourcePathUtils staticResourcePathUtils;
 	
 	@Autowired
-	private FFmpegAutioHandler ffmpegAutioHandler;
+	private FFmpegAudioStreamHandler ffmpegAudioStreamHandler;
 
 	@RabbitListener(queues = QueueName.AudioConvert)
 	@Override
@@ -42,7 +42,7 @@ public class AudioServiceImp implements AudioService{
 		
 		try {
 			File file = new File(staticResource.getPath());
-			this.ffmpegAutioHandler.handle(file);
+			this.ffmpegAudioStreamHandler.handle(file);
 			
 			staticResource.setHandled(true);
 			this.staticResourceService.update(staticResource);

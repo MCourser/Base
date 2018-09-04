@@ -3,9 +3,9 @@ package com.machao.base.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.machao.base.handler.audio.imp.FFmpegAutioHandler;
+import com.machao.base.handler.audio.imp.FFmpegAudioStreamHandler;
 import com.machao.base.handler.image.imp.OpencvImageHandler;
-import com.machao.base.handler.video.imp.FFmpegVideoHandler;
+import com.machao.base.handler.video.imp.FFmpegVideoStreamHandler;
 
 @Configuration
 public class HandlerConfig {
@@ -16,12 +16,12 @@ public class HandlerConfig {
 	}
 	
 	@Bean
-	public FFmpegAutioHandler ffmpegAutioHandler() {
-		return new FFmpegAutioHandler();
+	public FFmpegAudioStreamHandler ffmpegAutioHandler() {
+		return new FFmpegAudioStreamHandler();
 	}
 	
 	@Bean
-	public FFmpegVideoHandler ffmpegVideoHandler() {
-		return new FFmpegVideoHandler();
+	public FFmpegVideoStreamHandler ffmpegVideoHandler() {
+		return new FFmpegVideoStreamHandler();
 	}
 }

@@ -13,21 +13,6 @@
   </nb-card-body>
 </nb-card>
 
-<nb-card [hidden]="!video">
-  <nb-card-header>
-    <span>
-       <i class="ion ion-md-videocam text-danger"></i>
-      <span> {{video?video.id:''}}</span>
-    </span>
-    <nb-actions size="small" class="float-right">
-      <nb-action icon="icon ion-md-close text-danger" (click)="stop()"></nb-action>
-    </nb-actions>
-  </nb-card-header>
-  <nb-card-body #videoElementWrapper>
-    <video id="videoElement" [style.width.px]="videoElementWrapper.width" class="video-js vjs-default-skin" controls></video>
-  </nb-card-body>
-</nb-card>
-
 <nb-card *ngIf="getFileUploader().queue.length">
   <nb-card-header>
     <span>
@@ -66,6 +51,21 @@
       <i class="ion ion-md-checkmark"></i>
     </button>
   </nb-card-footer>
+</nb-card>
+
+<nb-card [hidden]="!video">
+  <nb-card-header>
+    <span>
+       <i class="ion ion-md-videocam text-danger"></i>
+      <span> {{video?video.id:''}}</span>
+    </span>
+    <nb-actions size="small" class="float-right">
+      <nb-action icon="icon ion-md-close text-danger" (click)="stop()"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body>
+    <video id="videoElement" class="video-js vjs-default-skin" controls></video>
+  </nb-card-body>
 </nb-card>
 
 <nb-card>

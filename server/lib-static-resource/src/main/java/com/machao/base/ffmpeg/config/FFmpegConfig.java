@@ -57,4 +57,18 @@ public class FFmpegConfig {
 		
 		throw new FileNotFoundException();
 	}
+	
+	public static File getFFprobe() throws UnsupportedPlatformException, UnsupportedArchException, IOException {
+		Platform platform = PlatformUtils.getPlatform();
+		File path = getFFmpegPath();
+		if(Platform.macos.equals(platform)) {
+			return new File(path.getAbsolutePath(), "ffprobe");
+		} else if(Platform.linux.equals(platform)) {
+			return new File(path.getAbsolutePath(), "ffprobe");
+		} else if(Platform.windows.equals(platform)) {
+			return new File(path.getAbsolutePath(), "ffprobe.exe");
+		}
+		
+		throw new FileNotFoundException();
+	}
 }

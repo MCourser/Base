@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.bytedeco.javacpp-presets</groupId>
-			<artifactId>ffmpeg</artifactId>
+			<artifactId>ffmpeg-platform</artifactId>
 		</dependency>
 
 		<dependency>

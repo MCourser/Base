@@ -1,19 +1,23 @@
 package com.machao.base.ffmpeg;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedArchException;
-import com.machao.base.ffmpeg.utils.PlatformUtils.UnsupportedPlatformException;
+import com.alibaba.fastjson.JSONObject;
+import com.machao.base.ffmpeg.config.FFmpegConfig;
+import com.machao.base.ffmpeg.model.FFmpegMediaInfo;
 
 public abstract class FFmpegHandler {
 	private static final Logger logger = LoggerFactory.getLogger(FFmpegHandler.class);
+	
+	private FFmepgHandlerConfig ffmepgHandlerConfig = new FFmepgHandlerConfig();
 	
 	public enum Type {
 		unknow("unknow"),
@@ -56,56 +60,84 @@ public abstract class FFmpegHandler {
 			return Type.unknow;
 		}
 	}
+	
+	public FFmpegHandler() {
+		super();
+	}
+
+	public FFmpegHandler(FFmepgHandlerConfig ffmepgHandlerConfig) {
+		super();
+		this.ffmepgHandlerConfig = ffmepgHandlerConfig;
+	}
+	
+	private FFmpegMediaInfo preHandle(File srcFile) throws Exception {
+		List<String> command = obtainFFprobeCommands(srcFile);
+		logger.debug("ffmpeg command: {}", command);
+		Process ffprobeProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(ffprobeProcess.getInputStream()));
+		StringBuffer lines = new StringBuffer();
+		String line = null;
+		while((line=reader.readLine()) != null) {
+			lines.append(line).append('\n');
+		}
+		
+		ffprobeProcess.waitFor();
+		
+		logger.debug("ffprobe {}", lines.toString());
+		
+		return JSONObject.parseObject(lines.toString(), FFmpegMediaInfo.class); 
+	}
 
 	/**
 	 * 
 	 * @param srcFile src must is file
-	 * @param destFolder dest must is folder
 	 * @return true is success
-	 * @throws IOException
-	 * @throws InterruptedException 
-	 * @throws UnsupportedArchException 
-	 * @throws UnsupportedPlatformException 
+	 * @throws Exception 
 	 */
-	public final boolean handle(File srcFile, File destFolder, HandlerCallback callback) throws IOException, InterruptedException, UnsupportedPlatformException, UnsupportedArchException {
+	public final void handle(File srcFile, HandlerCallback callback) throws Exception {
 		if(!srcFile.isFile()) {
 			throw new IllegalArgumentException("srcFile must is a video file.");
 		}
 		
-		if (!destFolder.exists()) {
-			destFolder.createNewFile();
-			
-			if(!destFolder.isDirectory()) {
-				FileUtils.deleteQuietly(destFolder);
-				throw new IllegalArgumentException("destFolder must is a folder.");
-			}
-		} else {
-			if(!destFolder.isDirectory()) {
-				throw new IllegalArgumentException("destFolder must is a folder.");
-			}
-		}
-
-		callback.onStart();
+		FFmpegMediaInfo ffmpegMediaInfo = this.preHandle(srcFile);
 		
-		Process videoProcess = new ProcessBuilder(obtainCommands(srcFile, destFolder, callback)).redirectErrorStream(true).start();
-		new PrintStream(videoProcess.getErrorStream(), callback).start();
-		new PrintStream(videoProcess.getInputStream(), callback).start();
-		int exitcode = videoProcess.waitFor();
+		if(callback!=null) callback.onStart();
 		
-		callback.onFinished();
-
-		if (exitcode == 1) {
-			return false;
-		}
-		return true;
+		List<String> command = obtainCommands(ffmepgHandlerConfig, ffmpegMediaInfo, srcFile, srcFile.getParentFile(), callback);
+		logger.debug("ffmpeg command: {}", command);
+		Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
+		new ErrorPrintStream(videoProcess.getErrorStream(), callback).start();
+		new InputPrintStream(videoProcess.getInputStream(), callback).start();
+		videoProcess.waitFor();
+		
+		if(callback!=null) callback.onFinished();
 	}
 	
-	protected abstract List<String> obtainCommands(File srcFile, File destFolder, HandlerCallback callback)  throws UnsupportedPlatformException, UnsupportedArchException, IOException;
+	private List<String> obtainFFprobeCommands(File srcFile) throws Exception {
+		List<String> commands = new ArrayList<String>();
+		commands.add(FFmpegConfig.getFFprobe().getAbsolutePath());
+		commands.add("-v");
+		commands.add("quiet");
+		commands.add("-print_format");
+		commands.add("json");
+		commands.add("-show_format");
+		commands.add("-show_streams");
+		commands.add(srcFile.getAbsolutePath());
+		return commands;
+	}
+	
+	protected abstract List<String> obtainCommands(FFmepgHandlerConfig ffmepgHandlerConfig, FFmpegMediaInfo ffmpegMediaInfo, File srcFile, File destFolder, HandlerCallback callback)  throws Exception;
 	
 	private class PrintStream extends Thread {
 		private InputStream inputStream = null;
-		private StringBuffer lineBuffer = new StringBuffer();
 		private HandlerCallback callback = null;
+		
+		private StringBuffer lineBuffer = new StringBuffer();
+		
+		public PrintStream(InputStream inputStream) {
+			this.inputStream = inputStream;
+		}
 
 		public PrintStream(InputStream inputStream, HandlerCallback callback) {
 			this.inputStream = inputStream;
@@ -143,11 +175,17 @@ public abstract class FFmpegHandler {
 	}
 	
 	private class ErrorPrintStream extends PrintStream{
+		public ErrorPrintStream(InputStream inputStream) {
+			super(inputStream);
+		}
 		public ErrorPrintStream(InputStream inputStream, HandlerCallback callback) {
 			super(inputStream, callback);
 		}
 	}
 	private class InputPrintStream extends PrintStream{
+		public InputPrintStream(InputStream inputStream) {
+			super(inputStream);
+		}
 		public InputPrintStream(InputStream inputStream, HandlerCallback callback) {
 			super(inputStream, callback);
 		}

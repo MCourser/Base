@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.machao.base.handler.video.imp.FFmpegVideoHandler;
+import com.machao.base.handler.video.imp.FFmpegVideoStreamHandler;
 import com.machao.base.model.mq.QueueName;
 import com.machao.base.model.mq.video.request.VideoConvertRequest;
 import com.machao.base.model.mq.video.request.VideoDeleteRequest;
@@ -33,7 +33,7 @@ public class VideoServiceImp implements VideoService{
 	private StaticResourcePathUtils staticResourcePathUtils;
 	
 	@Autowired
-	private FFmpegVideoHandler ffmpegVideoHandler;
+	private FFmpegVideoStreamHandler fFmpegVideoStreamHandler;
 
 	@RabbitListener(queues = QueueName.VideoConvert)
 	@Override
@@ -41,7 +41,7 @@ public class VideoServiceImp implements VideoService{
 		StaticResource staticResource = videoConvertRequest.getStaticResource();
 		try {
 			File file = new File(staticResource.getPath());
-			this.ffmpegVideoHandler.handle(file);
+			this.fFmpegVideoStreamHandler.handle(file);
 			
 			staticResource.setHandled(true);
 			this.staticResourceService.update(staticResource);

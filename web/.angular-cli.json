@@ -24,7 +24,9 @@
       "scripts": [
         "../node_modules/hls.js/dist/hls.js",
         "../node_modules/video.js/dist/video.js",
-        "../node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js"
+        "../node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js",
+        "../node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js",
+        "../node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

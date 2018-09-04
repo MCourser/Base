@@ -41,6 +41,12 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
 
   ngAfterViewInit() {
     this.player = videojs('videoElement');
+    this.player.hlsQualitySelector();
+    // this.player.qualityLevels.on('addqualitylevel', function(event) {
+    //   console.log(event);
+    //   const qualityLevel = event.qualityLevel;
+    //   qualityLevel.enabled = true;
+    // });
   }
 
   public getAcceptContentType() {
@@ -77,6 +83,12 @@ export class VideoStaticResourceComponent extends BaseStaticResourceComponent im
         type: 'application/x-mpegURL'
       });
       this.player.play();
+
+      console.log(this.player.qualityLevels);
+      const levels = this.player.qualityLevels();
+      levels.forEach(level => {
+        console.log(level);
+      });
     } catch (e) {
       console.log(e);
       this.showToasty(ToasterType.error, '错误', '视频播放失败，请稍后重试。');

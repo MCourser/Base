@@ -57,8 +57,8 @@ public class StaticResourceVideoController extends BaseController{
 		}
 	}
 	
-	@GetMapping("/video/{uuid}/{palylist}")
-	public void videoTs(@PathVariable String uuid, @PathVariable String palylist, HttpServletRequest request,  HttpServletResponse response) {
+	@GetMapping("/video/{uuid}/{quality}/{palylist}")
+	public void videoTs(@PathVariable String uuid, @PathVariable int quality, @PathVariable String palylist, HttpServletRequest request,  HttpServletResponse response) {
 		super.checkBurglarChain(request);
 		
 		
@@ -68,7 +68,7 @@ public class StaticResourceVideoController extends BaseController{
 		
 		File file = new File(staticResource.getPath());
 		if(!file.exists()) throw new IllegalStateException();
-		File tsFile = new File(file.getParent(), palylist);
+		File tsFile = new File(file.getParent(), String.format("%d" + File.separator + "%s", quality, palylist));
 		if(!tsFile.exists()) throw new IllegalStateException();
 		
 		try {

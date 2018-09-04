@@ -44,10 +44,10 @@
 			</dependency>
 			<dependency>
 				<groupId>org.bytedeco.javacpp-presets</groupId>
-				<artifactId>ffmpeg</artifactId>
+				<artifactId>ffmpeg-platform</artifactId>
 				<version>4.0.1-1.4.2</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>lib-commons</artifactId>
