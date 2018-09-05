@@ -64,9 +64,9 @@ vagrant up
 
 ### 运行后台
 
-以`Java Application ` 运行`service-web`中的`ServiceStaticResourceApplication.java`
+以`Java Application ` 运行`service-web`中的`ServiceWebApplication.java`
 
-以`Java Application ` 运行`service-static-resource`中的`ServiceWebApplication.java`
+以`Java Application ` 运行`service-static-resource`中的`ServiceStaticResourceApplication.java`
 
 ### 运行前台
 
