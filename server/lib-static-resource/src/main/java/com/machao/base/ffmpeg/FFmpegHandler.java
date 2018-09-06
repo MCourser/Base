@@ -97,7 +97,7 @@ public abstract class FFmpegHandler {
 		
 		List<String> command = obtainCommands(ffmepgHandlerConfig, ffmpegMediaInfo, srcFile, srcFile.getParentFile(), callback);
 		logger.debug("ffmpeg command: {}", command);
-		Process videoProcess = new ProcessBuilder(command).start();
+		Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
 		new ErrorPrintStream(videoProcess.getErrorStream()).start();
 		new InputPrintStream(videoProcess.getInputStream()).start();
 		int exitCode = videoProcess.waitFor();
