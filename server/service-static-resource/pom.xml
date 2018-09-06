@@ -45,7 +45,7 @@
 
 		<!-- my module -->
 		<dependency>
-			<groupId>com.machao.base</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>lib-static-resource</artifactId>
 		</dependency>
 		<dependency>
