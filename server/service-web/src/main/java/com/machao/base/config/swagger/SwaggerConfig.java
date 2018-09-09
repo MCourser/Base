@@ -27,8 +27,6 @@ public class SwaggerConfig {
 		 return new ApiInfoBuilder()
 	                .title("Base APIs")
 	                .description("provide restful api")
-//	                .termsOfServiceUrl("http://blog.didispace.com/")
-//	                .contact("程序猿DD")
 	                .version("0.0.1-SNAPSHOT")
 	                .build();
 	}

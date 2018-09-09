@@ -1,10 +1,26 @@
+## Vagrant version
+Vagrant.require_version ">= 1.7.4"
+
+## Plugins
+unless Vagrant.has_plugin?("vagrant-hostsupdater")
+  raise 'Missing vagrant-docker-compose plugin! Make sure to install it by `vagrant plugin install vagrant-hostsupdater`.'
+end
+unless Vagrant.has_plugin?("vagrant-docker-compose")
+  raise 'Missing vagrant-docker-compose plugin! Make sure to install it by `vagrant plugin install vagrant-docker-compose`.'
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
   # config.ssh.username = "vagrant"
   # config.ssh.password = "123456"
   
   config.vm.network "forwarded_port", guest: 3306, host: 3306
+  config.vm.network "forwarded_port", guest: 33060, host: 33060
+  config.vm.network "forwarded_port", guest: 4369, host: 4369
+  config.vm.network "forwarded_port", guest: 5671, host: 5671
   config.vm.network "forwarded_port", guest: 5672, host: 5672
+  config.vm.network "forwarded_port", guest: 25672, host: 25672
+  config.vm.network "forwarded_port", guest: 15671, host: 15671
   config.vm.network "forwarded_port", guest: 15672, host: 15672
   
   config.vm.provider "virtualbox" do |vb|
@@ -17,12 +33,8 @@ Vagrant.configure("2") do |config|
     vb.memory = 3072
   end
 
-  config.vm.provision "docker",
-    images: ["mysql:5.6", "rabbitmq:3", "rabbitmq:3-management"]
+  config.vm.provision :docker, run: "always"
 
-  config.vm.provision "docker", run: "always" do |d|
-    d.run "mysql", image: "mysql:5.6", args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=base"
-    d.run "rabbitmq", image: "rabbitmq:latest", args: "-p 5672:5672"
-    d.run "rabbitmq-management", image: "rabbitmq:3-management", args: "-p 15672:15672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=123456"
-  end
+  config.vm.provision :docker_compose, rebuild: "true", run: "always", yml: "/vagrant/docker-compose.yml"
+
 end

@@ -19,7 +19,7 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/base
+    url: jdbc:mysql://127.0.0.1:3306/base?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -40,14 +40,15 @@ spring:
       connection-test-query: SELECT 1
   jpa:
     database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: false
     hibernate:
       ddl-auto: create
   rabbitmq:
     host: 127.0.0.1
     port: 5672
-    username: guest
-    password: guest
+    username: root
+    password: 123456
 static-resource:
   root-path: /Users/cma2/Documents/upload
 logging:
